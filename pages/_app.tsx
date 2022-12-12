@@ -1,6 +1,11 @@
 import "reflect-metadata";
 import TransactionProvider from "../providers/TransactionProvider";
+import React from "react";
 
 export default function MyApp({ Component, pageProps }) {
-    return <TransactionProvider><Component {...pageProps} /></TransactionProvider>
-}
+    const getLayout = Component.getLayout || ((page) => page)
+
+    return <TransactionProvider><>
+        {getLayout(<Component {...pageProps} />)}
+    </></TransactionProvider>
+};
