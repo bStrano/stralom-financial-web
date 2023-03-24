@@ -19,10 +19,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import {visuallyHidden} from '@mui/utils';
 import Dashboard from '../../components/templates/Dashboard';
-import {getComparator, stableSort} from "../../utils/table.utils";
+import {getComparator, stableSort} from "../../src/utils/table.utils";
 import {useContext} from "react";
-import {TransactionContext} from "../../providers/TransactionProvider";
-import {TransactionRegisterDTO} from "../../validators/TransactionRegisterDTO";
+import {TransactionContext} from "../../src/providers/TransactionProvider";
+import {TransactionRegisterDTO} from "../../src/validators/TransactionRegisterDTO";
 
 
 const headCells = [
@@ -144,7 +144,7 @@ function EnhancedTableToolbar(props) {
                     id="tableTitle"
                     component="div"
                 >
-                    Nutrition
+                    Transações
                 </Typography>
             )}
 
@@ -281,7 +281,6 @@ export default function EnhancedTable() {
                                                 {/*    />*/}
                                                 {/*</TableCell>*/}
                                                 <TableCell
-                                                    component="th"
                                                     id={labelId}
                                                     scope="row"
                                                     padding="none"

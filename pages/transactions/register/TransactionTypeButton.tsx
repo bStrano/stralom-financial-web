@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import {Button, ToggleButton} from "@mui/material";
-import {FormContext} from "../../../providers/FormProvider";
+import {FormContext} from "../../../src/providers/FormProvider";
 import {useController} from "react-hook-form";
 
 interface ITransactionTypeButtonProps {
@@ -15,6 +15,7 @@ function TransactionTypeButton(props: ITransactionTypeButtonProps) {
     return (
         <div>
             <ToggleButton
+                id={'type-incomming'}
                 value="check"
                 selected={field.value === 'incomming'}
                 color={'success'}
@@ -25,6 +26,7 @@ function TransactionTypeButton(props: ITransactionTypeButtonProps) {
                 <Button>Entrada</Button>
             </ToggleButton>
             <ToggleButton
+                id={'type-outgoing'}
                 value="check"
                 color={'error'}
                 selected={field.value === 'outgoing'}

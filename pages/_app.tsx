@@ -1,11 +1,28 @@
 import "reflect-metadata";
-import TransactionProvider from "../providers/TransactionProvider";
+import TransactionProvider from "../src/providers/TransactionProvider";
 import React from "react";
+import "@fontsource/montserrat";
+import {createTheme} from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import ThemeProvider from "./../src/theme"
 
-export default function MyApp({ Component, pageProps }) {
+// const darkTheme = createTheme({
+//     palette: {
+//         mode: 'dark',
+//     },
+// });
+
+
+export default function MyApp({Component, pageProps}) {
     const getLayout = Component.getLayout || ((page) => page)
 
-    return <TransactionProvider><>
-        {getLayout(<Component {...pageProps} />)}
-    </></TransactionProvider>
+    return (
+        <ThemeProvider>
+            <CssBaseline />
+            <TransactionProvider>
+                {getLayout(<Component {...pageProps} />)}
+            </TransactionProvider>
+        </ThemeProvider>
+    )
 };
+

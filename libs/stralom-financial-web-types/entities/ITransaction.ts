@@ -1,0 +1,4 @@
+interface ITransaction {
+    description: string;
+
+}

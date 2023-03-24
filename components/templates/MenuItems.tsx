@@ -8,6 +8,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PeopleIcon from '@mui/icons-material/People';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import {useRouter} from "next/router";
+import TransactionIcon from "../../icons/TransactionIcon";
 
 export const MenuItems = () => {
     const router = useRouter()
@@ -18,13 +19,13 @@ export const MenuItems = () => {
             </ListItemIcon>
             <ListItemText primary="Dashboard" />
         </ListItemButton>
-        <ListItemButton onClick={async () =>  await router.push('/transactions')}>
+        <ListItemButton id={'transaction-menu'} onClick={async () =>  await router.push('/transactions')}>
             <ListItemIcon>
-                <ShoppingCartIcon />
+                <TransactionIcon/>
             </ListItemIcon>
             <ListItemText primary="Transações" />
         </ListItemButton>
-        <ListItemButton onClick={async () =>  await router.push('/transactions/register')}>
+        <ListItemButton id={'transaction-register-menu'}  onClick={async () =>  await router.push('/transactions/register')}>
             <ListItemIcon>
                 <PeopleIcon />
             </ListItemIcon>

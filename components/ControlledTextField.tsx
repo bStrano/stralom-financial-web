@@ -1,8 +1,8 @@
 import React, {useContext} from 'react';
 import {useController} from "react-hook-form";
 import {TextField, TextFieldProps} from "@mui/material";
-import {MaskUtils} from "../utils/mask.utils";
-import {FormContext} from "../providers/FormProvider";
+import {MaskUtils} from "../src/utils/mask.utils";
+import {FormContext} from "../src/providers/FormProvider";
 
 export type IControlledTextFieldProps = {
     id: string;
@@ -23,7 +23,7 @@ function ControlledTextField({mask, id, ...restProps}: IControlledTextFieldProps
     }
 
  return (
-  <TextField error={Boolean(fieldState.error)} helperText={fieldState.error?.message} {...field} {...restProps} onChange={onChange} name={id}/>
+  <TextField id={id} error={Boolean(fieldState.error)} helperText={fieldState.error?.message} {...field} {...restProps} onChange={onChange} name={id}/>
  );}
 
 export default ControlledTextField;

@@ -16,6 +16,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import {MenuItems} from "./MenuItems";
+import {Title} from "@mui/icons-material";
 
 
 function Copyright(props: any) {
@@ -81,18 +82,15 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
 );
 
-const mdTheme = createTheme();
 
-function DashboardContent({children}) {
+function DashboardContent({children, title, subtitle}) {
     const [open, setOpen] = React.useState(true);
     const toggleDrawer = () => {
         setOpen(!open);
     };
 
     return (
-        <ThemeProvider theme={mdTheme}>
-            <Box sx={{ display: 'flex' }}>
-                <CssBaseline />
+            <Box sx={{ display: 'flex'}}>
                 <AppBar position="absolute" open={open}>
                     <Toolbar
                         sx={{
@@ -159,15 +157,16 @@ function DashboardContent({children}) {
                     }}
                 >
                     <Toolbar />
-                    <Container>
+                    <Container style={{minWidth: '100%', marginTop: 20}}>
+                        <Typography variant={"h5"}>{title}</Typography>
+                        <Typography variant={"subtitle1"} style={{paddingBottom: 10}}>{subtitle}</Typography>
                         {children}
                     </Container>
                 </Box>
             </Box>
-        </ThemeProvider>
     );
 }
 
-export default function Dashboard({children}) {
-    return <DashboardContent>{children}</DashboardContent>;
+export default function Dashboard({children, title, subtitle}) {
+    return <DashboardContent title={title} subtitle={subtitle}>{children}</DashboardContent>;
 }

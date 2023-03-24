@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 
 import {Button} from "@mui/material";
 import {ButtonProps} from "@mui/material/Button/Button";
-import {FormContext} from "../providers/FormProvider";
+import {FormContext} from "../src/providers/FormProvider";
 
 type IControlledSubmitButtonProps = {
     onSubmit: (data: any) => void
