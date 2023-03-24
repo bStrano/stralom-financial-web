@@ -1,10 +1,10 @@
 import "reflect-metadata";
-import TransactionProvider from "../src/providers/TransactionProvider";
+import TransactionProvider from "../providers/TransactionProvider";
 import React from "react";
 import "@fontsource/montserrat";
 import {createTheme} from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import ThemeProvider from "./../src/theme"
+import ThemeProvider from "../theme"
 
 // const darkTheme = createTheme({
 //     palette: {

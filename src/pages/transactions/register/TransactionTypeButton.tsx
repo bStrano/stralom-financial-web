@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import {Button, ToggleButton} from "@mui/material";
-import {FormContext} from "../../../src/providers/FormProvider";
+import {FormContext} from "../../../providers/FormProvider";
 import {useController} from "react-hook-form";
 
 interface ITransactionTypeButtonProps {

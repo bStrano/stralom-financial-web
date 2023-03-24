@@ -1,10 +1,10 @@
 import {Box, Card, CardActions, CardContent} from "@mui/material";
 import React, {useContext, useState} from "react";
 import ControlledTextField from "../../../components/ControlledTextField";
-import {FormProvider} from "../../../src/providers/FormProvider";
+import {FormProvider} from "../../../providers/FormProvider";
 import ControlledSubmitButton from "../../../components/ControlledSubmitButton";
-import {TransactionRegisterDTO} from "../../../src/validators/TransactionRegisterDTO";
-import {TransactionContext} from "../../../src/providers/TransactionProvider";
+import {TransactionRegisterDTO} from "../../../validators/TransactionRegisterDTO";
+import {TransactionContext} from "../../../providers/TransactionProvider";
 import {useRouter} from 'next/router'
 import Dashboard from "../../../components/templates/Dashboard";
 import TransactionTypeButton from "./TransactionTypeButton";
