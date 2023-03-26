@@ -14,6 +14,10 @@ export class TransactionRegisterDTO {
     @IsNotEmpty({message: 'O numero de parcelas é obrigatório'})
     @Type(() => Number)
     instalments: number;
+    @IsNumber({allowNaN: false, })
+    @IsNotEmpty({message: 'O numero de parcelas é obrigatório'})
+    @Type(() => Number)
+    type: 'incomming' | 'outgoing';
     @IsDate()
     @IsNotEmpty({message: 'A data da transação é obrigatória.'})
     @Type(() => Date)

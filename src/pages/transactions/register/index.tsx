@@ -6,7 +6,7 @@ import ControlledSubmitButton from "../../../components/ControlledSubmitButton";
 import {TransactionRegisterDTO} from "../../../validators/TransactionRegisterDTO";
 import {TransactionContext} from "../../../providers/TransactionProvider";
 import {useRouter} from 'next/router'
-import Dashboard from "../../../components/templates/Dashboard";
+import Index from "../../../components/templates/Dashboard";
 import TransactionTypeButton from "./TransactionTypeButton";
 
 export default function TransactionRegisterPage() {
@@ -15,7 +15,7 @@ export default function TransactionRegisterPage() {
     const router = useRouter()
 
     return (
-        <Dashboard title={"Adicionar nova transação"} subtitle={"Preencha todos os campos abaixo para criar uma nova transação"}>
+        <Index title={"Adicionar nova transação"} subtitle={"Preencha todos os campos abaixo para criar uma nova transação"}>
             <FormProvider validationSchema={TransactionRegisterDTO}>
                 <Card sx={{ minWidth: 400}}>
                     <CardContent>
@@ -48,7 +48,7 @@ export default function TransactionRegisterPage() {
                 </Card>
 
             </FormProvider>
-        </Dashboard>
+        </Index>
 
     )
 }

@@ -1,7 +1,7 @@
-import Dashboard from "../components/templates/Dashboard";
+import Core from "../components/templates/Dashboard";
 
 export default function Home() {
   return (
-      <Dashboard/>
+      <Core/>
   )
 }
