@@ -14,17 +14,16 @@ import Container from "@mui/material/Container";
 import {Drawer} from "./Drawer";
 import {AppBar} from "./AppBar";
 import {Breadcrumbs} from "@mui/material";
-import Link from "@mui/material/Link";
 
 
 interface DashboardContentProps {
     title?: string;
     subtitle?: string;
     children: React.ReactNode;
-    breadcumbs?: React.ReactNode;
+    topContent?: React.ReactNode;
 }
 
-export function DashboardContent({children, title, subtitle, breadcumbs}: DashboardContentProps) {
+export function DashboardContent({children, title, subtitle, topContent}: DashboardContentProps) {
     const [open, setOpen] = React.useState(true);
     const toggleDrawer = () => {
         setOpen(!open);
@@ -100,7 +99,7 @@ export function DashboardContent({children, title, subtitle, breadcumbs}: Dashbo
                 <Toolbar/>
                 <Container style={{minWidth: '100%', marginTop: 20}}>
                     <Breadcrumbs aria-label="breadcrumb">
-                        {breadcumbs}
+                        {topContent}
                     </Breadcrumbs>
                     <Typography variant={"h5"}>{title}</Typography>
                     <Typography variant={"subtitle1"} style={{paddingBottom: 10}}>{subtitle}</Typography>

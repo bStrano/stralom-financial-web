@@ -9,7 +9,16 @@ import {Button} from "@mui/material";
 import PropTypes from "prop-types";
 import * as React from "react";
 
-export function EnhancedTableToolbar(props) {
+export interface EnchantedTableToolbarProps {
+    title: string;
+    buttonLabel?: string;
+
+    buttonOnPress?(): any;
+
+    numSelected?: number;
+}
+
+export function EnhancedTableToolbar(props: EnchantedTableToolbarProps) {
     const {numSelected} = props;
 
     return (
@@ -39,7 +48,7 @@ export function EnhancedTableToolbar(props) {
                     id="tableTitle"
                     component="div"
                 >
-                    Transações
+                    {props.title}
                 </Typography>
             )}
 
@@ -56,8 +65,10 @@ export function EnhancedTableToolbar(props) {
                     </IconButton>
                 </Tooltip>
             )}
-            <Button variant="contained" >Nova transação</Button>
-
+            {
+                props.buttonLabel && props.buttonOnPress &&
+                <Button variant="contained" onClick={props.buttonOnPress}>{props.buttonLabel}</Button>
+            }
         </Toolbar>
     );
 }

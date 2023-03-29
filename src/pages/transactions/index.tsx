@@ -1,54 +1,89 @@
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import Core from "../../components/templates/Dashboard";
 import EnhancedTable from "../../components/Table";
 import TableCell from "@mui/material/TableCell";
-import {TransactionRegisterDTO} from "../../validators/TransactionRegisterDTO";
+import {Breadcrumbs} from "@mui/material";
+import Link from "@mui/material/Link";
+import Typography from "@mui/material/Typography";
+import {TransactionRegisterModal} from "../../modals/TransactionRegisterModal";
+import {useTransactionContext} from "../../providers/TransactionProvider";
+import {format} from 'date-fns';
+import {ITransaction} from "../../../libs/stralom-financial-web-types/entities/ITransaction";
+import {IoMdTrendingDown, IoMdTrendingUp} from "react-icons/all";
+import {useTheme} from "@mui/material/styles";
 
 interface TransactionScreenPropsInterface {
 
 }
 
-const headCells = [{
-    id: 1,
-    label: "Nome"
-},
+const headCells = [
+    {
+        id: 1,
+        label: ""
+    },
     {
         id: 2,
-        label: "Valor"
+        label: "Nome"
     },
     {
         id: 3,
-        label: "Tipo"
+        label: "Valor"
     },
     {
         id: 4,
+        label: "Categoria"
+    },
+    {
+        id: 5,
         label: "Data"
     }]
 
-const rows: TransactionRegisterDTO[] = [
-    {id: 1, name: "Teste", type: "incomming", instalments: 0, date: new Date(), value: 1220},
-    {id: 2, name: "Teste", type: "incomming", instalments: 0, date: new Date(), value: 120},
-]
 export default function TransactionScreen(props: TransactionScreenPropsInterface) {
+    const theme = useTheme();
+    const [open, setOpen] = useState(false);
+    const transactionContext = useTransactionContext();
 
+    const onRegister = useCallback(async () => {
+        console.log("On Register")
+        setOpen(true);
+    }, [])
 
+    if (transactionContext.transactionsQuery.isLoading) {
+        return <div/>
+    }
     return (
-        <Core>
-            <EnhancedTable rows={rows}  headCells={headCells} renderRows={ (row: TransactionRegisterDTO) => (
-                <>
-                    <TableCell
-                        id={"Teste"}
-                        scope="row"
-                        padding="none"
-                    >
-                        {row.name}
-                    </TableCell>
-                    <TableCell align="left">{row.value}</TableCell>
-                    <TableCell align="left">{row.type}</TableCell>
-                    <TableCell align="left">{row.date.toString()}</TableCell>
-            </>
-            )}
+        <Core topContent={<Breadcrumbs aria-label="breadcrumb">
+            <Link underline="hover" color="inherit" href="/">
+                Stralom
+            </Link>
+            <Typography color="text.primary">Transações</Typography>
+        </Breadcrumbs>}>
+            <EnhancedTable
+                toolbarProps={{title: "Transações", buttonLabel: "Nova transação", buttonOnPress: onRegister}}
+                rows={transactionContext.transactions || []} headCells={headCells}
+                renderRows={(row: ITransaction) => (
+                    <>
+                        <TableCell align="left" width={30}>
+                            {
+                                row.type === 'incomming' ?
+                                    <IoMdTrendingUp color={theme.palette.success.main} size={18}/> :
+                                    <IoMdTrendingDown color={theme.palette.error.main} size={20}/>
+                            }
+                        </TableCell>
+                        <TableCell
+                            id={"description"}
+                            scope="row"
+                            padding="none"
+                        >
+                            {row.description}
+                        </TableCell>
+                        <TableCell align="left">{row.value}</TableCell>
+                        <TableCell align="left">{row.category.name}</TableCell>
+                        <TableCell align="left">{format(new Date(row.date), 'dd/MM/yyyy')}</TableCell>
+                    </>
+                )}
             />
+            <TransactionRegisterModal open={open} setOpen={setOpen}/>
         </Core>
     );
 }

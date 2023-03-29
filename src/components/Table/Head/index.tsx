@@ -1,10 +1,9 @@
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import TableCell, {TableCellProps} from "@mui/material/TableCell";
+import TableCell from "@mui/material/TableCell";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import Box from "@mui/material/Box";
 import {visuallyHidden} from "@mui/utils";
-import PropTypes from "prop-types";
 import * as React from "react";
 import {HeadCellInterface} from "./types/HeadCellInterface";
 
@@ -60,11 +59,3 @@ export function EnhancedTableHead(props: EnchantedTableHeadProps) {
     );
 }
 
-EnhancedTableHead.propTypes = {
-    numSelected: PropTypes.number.isRequired,
-    onRequestSort: PropTypes.func.isRequired,
-    onSelectAllClick: PropTypes.func.isRequired,
-    order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-    orderBy: PropTypes.string.isRequired,
-    rowCount: PropTypes.number.isRequired,
-};

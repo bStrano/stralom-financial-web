@@ -8,14 +8,17 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {getComparator, stableSort} from "../../utils/table.utils";
-import {EnhancedTableToolbar} from "./Toolbar";
+import {EnchantedTableToolbarProps, EnhancedTableToolbar} from "./Toolbar";
 import {EnhancedTableHead} from "./Head";
 import {HeadCellInterface} from "./Head/types/HeadCellInterface";
 
 interface EnchantedTableProps {
     rows: any[]
     headCells: HeadCellInterface[]
+
     renderRows(item: any): JSX.Element
+
+    toolbarProps: EnchantedTableToolbarProps;
 }
 export default function EnhancedTable(props: EnchantedTableProps) {
     const rows = props.rows;
@@ -83,7 +86,7 @@ export default function EnhancedTable(props: EnchantedTableProps) {
     return (
             <Box sx={{width: '100%'}}>
                 <Paper sx={{width: '100%', mb: 2}}>
-                    <EnhancedTableToolbar numSelected={selected.length}/>
+                    <EnhancedTableToolbar {...props.toolbarProps} numSelected={selected.length}/>
                     <TableContainer>
                         <Table
                             sx={{minWidth: 750}}
