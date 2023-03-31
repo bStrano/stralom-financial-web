@@ -16,10 +16,12 @@ export interface EnchantedTableToolbarProps {
     buttonOnPress?(): any;
 
     numSelected?: number;
+
+    onDelete?(): Promise<void>;
 }
 
 export function EnhancedTableToolbar(props: EnchantedTableToolbarProps) {
-    const {numSelected} = props;
+    const {numSelected, onDelete} = props;
 
     return (
         <Toolbar
@@ -54,7 +56,7 @@ export function EnhancedTableToolbar(props: EnchantedTableToolbarProps) {
 
             {numSelected > 0 ? (
                 <Tooltip title="Delete">
-                    <IconButton>
+                    <IconButton onClick={onDelete}>
                         <DeleteIcon/>
                     </IconButton>
                 </Tooltip>

@@ -9,8 +9,8 @@ import {TransactionRegisterModal} from "../../modals/TransactionRegisterModal";
 import {useTransactionContext} from "../../providers/TransactionProvider";
 import {format} from 'date-fns';
 import {ITransaction} from "../../../libs/stralom-financial-web-types/entities/ITransaction";
-import {IoMdTrendingDown, IoMdTrendingUp} from "react-icons/all";
 import {useTheme} from "@mui/material/styles";
+import {IoMdTrendingDown, IoMdTrendingUp} from "react-icons/io";
 
 interface TransactionScreenPropsInterface {
 
@@ -48,6 +48,10 @@ export default function TransactionScreen(props: TransactionScreenPropsInterface
         setOpen(true);
     }, [])
 
+    const onDelete = useCallback(async (ids: string[]) => {
+        await transactionContext.onDelete(ids)
+    }, [])
+
     if (transactionContext.transactionsQuery.isLoading) {
         return <div/>
     }
@@ -60,6 +64,7 @@ export default function TransactionScreen(props: TransactionScreenPropsInterface
         </Breadcrumbs>}>
             <EnhancedTable
                 toolbarProps={{title: "Transações", buttonLabel: "Nova transação", buttonOnPress: onRegister}}
+                onDelete={(ids) => onDelete(ids)}
                 rows={transactionContext.transactions || []} headCells={headCells}
                 renderRows={(row: ITransaction) => (
                     <>

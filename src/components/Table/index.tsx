@@ -18,6 +18,7 @@ interface EnchantedTableProps {
 
     renderRows(item: any): JSX.Element
 
+    onDelete(ids: string[]): Promise<void>
     toolbarProps: EnchantedTableToolbarProps;
 }
 export default function EnhancedTable(props: EnchantedTableProps) {
@@ -77,6 +78,11 @@ export default function EnhancedTable(props: EnchantedTableProps) {
         setDense(event.target.checked);
     };
 
+    const handleDelete = async () => {
+        await props.onDelete(selected)
+        setSelected([])
+    }
+
     const isSelected = (name) => selected.indexOf(name) !== -1;
 
     // Avoid a layout jump when reaching the last page with empty rows.
@@ -84,19 +90,19 @@ export default function EnhancedTable(props: EnchantedTableProps) {
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
     return (
-            <Box sx={{width: '100%'}}>
-                <Paper sx={{width: '100%', mb: 2}}>
-                    <EnhancedTableToolbar {...props.toolbarProps} numSelected={selected.length}/>
-                    <TableContainer>
-                        <Table
-                            sx={{minWidth: 750}}
-                            aria-labelledby="tableTitle"
-                            size={dense ? 'small' : 'medium'}
-                        >
-                            <EnhancedTableHead
-                                headCells={props.headCells}
-                                order={order}
-                                orderBy={orderBy}
+        <Box sx={{width: '100%'}}>
+            <Paper sx={{width: '100%', mb: 2}}>
+                <EnhancedTableToolbar {...props.toolbarProps} onDelete={handleDelete} numSelected={selected.length}/>
+                <TableContainer>
+                    <Table
+                        sx={{minWidth: 750}}
+                        aria-labelledby="tableTitle"
+                        size={dense ? 'small' : 'medium'}
+                    >
+                        <EnhancedTableHead
+                            headCells={props.headCells}
+                            order={order}
+                            orderBy={orderBy}
                                 onRequestSort={handleRequestSort}
                             />
                             <TableBody>

@@ -6,6 +6,7 @@ import {ITransaction} from "../../libs/stralom-financial-web-types/entities/ITra
 
 const keys = {
     register: "Transaction_register",
+    delete: "Transaction_delete",
     findAll: "Transaction_findAll"
 }
 
@@ -14,9 +15,14 @@ async function register(transaction: TransactionRegisterDTO) {
     return data;
 }
 
+async function deleteAll(ids: string[]) {
+    const {data} = await axiosDefault.delete<ITransactionCategory[]>('transaction', {params: {ids}})
+    return data;
+}
+
 async function findAll() {
     const {data} = await axiosDefault.get<ITransaction[]>('transaction')
     return data;
 }
 
-export {register, findAll, keys}
+export {register, findAll, deleteAll, keys}
