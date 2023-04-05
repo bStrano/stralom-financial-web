@@ -14,7 +14,7 @@ interface EnchantedTableHeadProps {
     orderBy: string
 }
 export function EnhancedTableHead(props: EnchantedTableHeadProps) {
-    const {onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort} =
+    const {order, orderBy, onRequestSort} =
         props;
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);

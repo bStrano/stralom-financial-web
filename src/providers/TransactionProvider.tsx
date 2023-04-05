@@ -3,21 +3,23 @@ import {TransactionRegisterDTO} from "../validators/TransactionRegisterDTO";
 import {useTransactions} from "../hooks/queries/useTransactions";
 import {useMutation, UseMutationResult, useQueryClient, UseQueryResult} from "react-query";
 import {deleteAll, keys, register} from "../api/TransactionAPI";
-import {ITransactionCategory} from "../../libs/stralom-financial-web-types/entities/ITransactionCategory";
-import {ITransaction} from "../../libs/stralom-financial-web-types/entities/ITransaction";
+import {TransactionInterface} from "@core/modules/transactions/entities/TransactionInterface";
+import {TransactionCategoryInterface} from "@core/modules/transactions/entities/TransactionCategoryInterface";
+
 
 interface ITransactionProviderProps {
     children: React.ReactNode
 }
 
 interface ITransactionContext {
-    transactions: ITransaction[]
+    transactions: TransactionInterface[]
     setTransactions: React.Dispatch<React.SetStateAction<TransactionRegisterDTO[]>>
     add: (transaction: TransactionRegisterDTO) => void
 
     onDelete(ids: string[]): Promise<void>
-    saveMutation: UseMutationResult<ITransactionCategory[], unknown, TransactionRegisterDTO, unknown>
-    transactionsQuery: UseQueryResult<ITransaction[], unknown>
+
+    saveMutation: UseMutationResult<TransactionCategoryInterface[], unknown, TransactionRegisterDTO, unknown>
+    transactionsQuery: UseQueryResult<TransactionInterface[], unknown>
 }
 
 const TransactionContext = React.createContext({} as ITransactionContext)
@@ -42,7 +44,7 @@ function TransactionProvider(props: ITransactionProviderProps) {
         await deleteMutation.mutateAsync(ids);
         queryClient.setQueryData(
             [keys.findAll],
-            (oldData: ITransaction[]) => {
+            (oldData: TransactionInterface[]) => {
                 return oldData.filter(item => !ids.some(itemId => item.id === itemId));
             })
     }, [])

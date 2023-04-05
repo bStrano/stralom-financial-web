@@ -1,7 +1,7 @@
 import {axiosDefault} from "../configs/axios.config";
-import {ITransactionCategory} from "../../libs/stralom-financial-web-types/entities/ITransactionCategory";
 import {TransactionRegisterDTO} from "../validators/TransactionRegisterDTO";
-import {ITransaction} from "../../libs/stralom-financial-web-types/entities/ITransaction";
+import {TransactionCategoryInterface} from "@core/modules/transactions/entities/TransactionCategoryInterface";
+import {TransactionInterface} from "@core/modules/transactions/entities/TransactionInterface";
 
 
 const keys = {
@@ -11,17 +11,17 @@ const keys = {
 }
 
 async function register(transaction: TransactionRegisterDTO) {
-    const {data} = await axiosDefault.post<ITransactionCategory[]>('transaction', transaction)
+    const {data} = await axiosDefault.post<TransactionCategoryInterface[]>('transaction', transaction)
     return data;
 }
 
 async function deleteAll(ids: string[]) {
-    const {data} = await axiosDefault.delete<ITransactionCategory[]>('transaction', {params: {ids}})
+    const {data} = await axiosDefault.delete<TransactionCategoryInterface[]>('transaction', {params: {ids}})
     return data;
 }
 
 async function findAll() {
-    const {data} = await axiosDefault.get<ITransaction[]>('transaction')
+    const {data} = await axiosDefault.get<TransactionInterface[]>('transaction')
     return data;
 }
 

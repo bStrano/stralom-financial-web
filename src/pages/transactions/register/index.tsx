@@ -1,16 +1,16 @@
-import {Box, Card, CardActions, CardContent} from "@mui/material";
-import React, {useContext, useState} from "react";
+import {Card, CardActions, CardContent} from "@mui/material";
+import React, {useState} from "react";
 import ControlledTextField from "../../../components/ControlledTextField";
 import {FormProvider} from "../../../providers/FormProvider";
 import ControlledSubmitButton from "../../../components/ControlledSubmitButton";
 import {TransactionRegisterDTO} from "../../../validators/TransactionRegisterDTO";
-import {TransactionContext} from "../../../providers/TransactionProvider";
 import {useRouter} from 'next/router'
 import Index from "../../../components/templates/Dashboard";
 import TransactionTypeButton from "./TransactionTypeButton";
+import {useTransactionContext} from "../../../providers/TransactionProvider";
 
 export default function TransactionRegisterPage() {
-    const transactionContext = useContext(TransactionContext)
+    const transactionContext = useTransactionContext();
     const [selected, setSelected] = useState('incomming');
     const router = useRouter()
 

@@ -1,5 +1,5 @@
 import {axiosDefault} from "../configs/axios.config";
-import {ITransactionCategory} from "../../libs/stralom-financial-web-types/entities/ITransactionCategory";
+import {TransactionCategoryInterface} from "@core/modules/transactions/entities/TransactionCategoryInterface";
 
 
 const keys = {
@@ -7,8 +7,7 @@ const keys = {
 }
 
 async function findAll() {
-    console.log(process.env)
-    const {data} = await axiosDefault.get<ITransactionCategory[]>('transaction-category', {params: {subcategories: false}})
+    const {data} = await axiosDefault.get<TransactionCategoryInterface[]>('transaction-category', {params: {subcategories: false}})
     return data;
 }
 
