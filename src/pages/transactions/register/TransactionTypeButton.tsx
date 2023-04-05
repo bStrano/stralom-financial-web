@@ -17,25 +17,25 @@ function TransactionTypeButton(props: ITransactionTypeButtonProps) {
     return (
         <div style={{marginBottom: 10}}>
             <ToggleButton
-                id={'type-incomming'}
+                id={'type-incoming'}
                 value="incomming"
-                selected={field.value === 'incomming'}
+                selected={field.value === 'incoming'}
                 color={'success'}
                 onChange={() => {
-                    field.onChange('incomming')
+                    field.onChange('incoming')
                 }}
                 sx={{marginRight: 2, ...styles.button}}
             >
                 Entrada
             </ToggleButton>
             <ToggleButton
-                id={'type-outcomming'}
+                id={'type-outComing'}
                 value="outcomming"
                 color={'error'}
                 sx={styles.button}
-                selected={field.value === 'outcomming'}
+                selected={field.value === 'outComing'}
                 onChange={() => {
-                    field.onChange('outcomming')
+                    field.onChange('outComing')
                 }}
             >
                 Saída

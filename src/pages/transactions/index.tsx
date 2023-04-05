@@ -8,9 +8,10 @@ import Typography from "@mui/material/Typography";
 import {TransactionRegisterModal} from "../../modals/TransactionRegisterModal";
 import {useTransactionContext} from "../../providers/TransactionProvider";
 import {format} from 'date-fns';
-import {ITransaction} from "../../../libs/stralom-financial-web-types/entities/ITransaction";
 import {useTheme} from "@mui/material/styles";
 import {IoMdTrendingDown, IoMdTrendingUp} from "react-icons/io";
+import {TransactionInterface} from "@core/modules/transactions/entities/TransactionInterface";
+import {TransactionTypeEnum} from "@core/modules/transactions/enums/TransactionTypeEnum";
 
 interface TransactionScreenPropsInterface {
 
@@ -66,11 +67,11 @@ export default function TransactionScreen(props: TransactionScreenPropsInterface
                 toolbarProps={{title: "Transações", buttonLabel: "Nova transação", buttonOnPress: onRegister}}
                 onDelete={(ids) => onDelete(ids)}
                 rows={transactionContext.transactions || []} headCells={headCells}
-                renderRows={(row: ITransaction) => (
+                renderRows={(row: TransactionInterface) => (
                     <>
                         <TableCell align="left" width={30}>
                             {
-                                row.type === 'incomming' ?
+                                row.type === TransactionTypeEnum.incoming ?
                                     <IoMdTrendingUp color={theme.palette.success.main} size={18}/> :
                                     <IoMdTrendingDown color={theme.palette.error.main} size={20}/>
                             }

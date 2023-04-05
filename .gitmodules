@@ -1,0 +1,3 @@
+[submodule "libs/stralom-financial-core"]
+	path = libs/stralom-financial-core
+	url = git@github.com:bStrano/Stralom-Financial-Core.git
