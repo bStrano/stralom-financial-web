@@ -49,7 +49,6 @@ function TransactionProvider(props: ITransactionProviderProps) {
             })
     }, [])
 
-    console.log(transactionsQuery);
     return (
         <TransactionContext.Provider
             value={{

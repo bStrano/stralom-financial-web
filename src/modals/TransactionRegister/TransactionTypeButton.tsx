@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import {FormHelperText, ToggleButton} from "@mui/material";
-import {FormContext} from "../../../providers/FormProvider";
+import {FormContext} from "../../providers/FormProvider";
 import {useController} from "react-hook-form";
 import {useTheme} from "@mui/material/styles";
 

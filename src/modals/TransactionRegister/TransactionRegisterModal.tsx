@@ -1,16 +1,16 @@
 import React, {useState} from 'react';
 import {Card, CardContent, CardHeader, Modal} from "@mui/material";
-import {FormProvider} from "../providers/FormProvider";
-import {TransactionRegisterDTO} from "../validators/TransactionRegisterDTO";
-import ControlledTextField from "../components/ControlledTextField";
-import TransactionTypeButton from "../pages/transactions/register/TransactionTypeButton";
-import ControlledSubmitButton from "../components/ControlledSubmitButton";
+import {FormProvider} from "../../providers/FormProvider";
+import {TransactionRegisterDTO} from "../../validators/TransactionRegisterDTO";
+import ControlledTextField from "../../components/ControlledTextField";
+import TransactionTypeButton from "./TransactionTypeButton";
+import ControlledSubmitButton from "../../components/ControlledSubmitButton";
 import {useRouter} from "next/router";
-import {useTransactionContext} from "../providers/TransactionProvider";
+import {useTransactionContext} from "../../providers/TransactionProvider";
 import IconButton from "@mui/material/IconButton";
-import {CloseIcon} from "../theme/overrides/CustomIcons";
-import {CategorySelector} from "../components/CategorySelector/CategorySelector";
-import {useTransactionCategoriesList} from "../hooks/queries/useTransactionCategoriesList";
+import {CloseIcon} from "../../theme/overrides/CustomIcons";
+import {CategorySelector} from "../../components/CategorySelector/CategorySelector";
+import {useTransactionCategoriesList} from "../../hooks/queries/useTransactionCategoriesList";
 
 interface TransactionRegisterModalPropsInterface {
     open: boolean;

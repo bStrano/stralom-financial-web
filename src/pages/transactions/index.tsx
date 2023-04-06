@@ -5,7 +5,7 @@ import TableCell from "@mui/material/TableCell";
 import {Breadcrumbs} from "@mui/material";
 import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
-import {TransactionRegisterModal} from "../../modals/TransactionRegisterModal";
+import {TransactionRegisterModal} from "../../modals/TransactionRegister/TransactionRegisterModal";
 import {useTransactionContext} from "../../providers/TransactionProvider";
 import {format} from 'date-fns';
 import {useTheme} from "@mui/material/styles";
@@ -45,7 +45,6 @@ export default function TransactionScreen(props: TransactionScreenPropsInterface
     const transactionContext = useTransactionContext();
 
     const onRegister = useCallback(async () => {
-        console.log("On Register")
         setOpen(true);
     }, [])
 

@@ -15,7 +15,6 @@ interface BigNumberExpensesCardPropsInterface {
 export function BigNumberExpensesCard(props: BigNumberExpensesCardPropsInterface) {
     const theme = useTheme();
 
-    console.log(props.data)
 
     const chartOptions: { options: ApexOptions, series: any } = useMemo(() => {
         return {

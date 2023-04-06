@@ -13,7 +13,6 @@ function ControlledSubmitButton(props: IControlledSubmitButtonProps) {
     return (
         <Button {...props} onClick={(event) => {
             formContext.handleSubmit((data) => {
-                console.log(data)
                 props.onSubmit(data);
             }, (err) => console.warn("Error", err))();
         }}>
