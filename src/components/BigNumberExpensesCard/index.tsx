@@ -4,6 +4,7 @@ import {Card} from "@mui/material";
 import {ApexOptions} from "apexcharts";
 import {useTheme} from "@mui/material/styles";
 import {CashFlowByDayCompiledInterface} from "@core/modules/statistics/CashFlowByDayCompiledInterface";
+import Box from "@mui/material/Box";
 
 const ApexCharts = dynamic(() => import('react-apexcharts'), {ssr: false});
 
@@ -14,7 +15,6 @@ interface BigNumberExpensesCardPropsInterface {
 
 export function BigNumberExpensesCard(props: BigNumberExpensesCardPropsInterface) {
     const theme = useTheme();
-
 
     const chartOptions: { options: ApexOptions, series: any } = useMemo(() => {
         return {
@@ -49,7 +49,8 @@ export function BigNumberExpensesCard(props: BigNumberExpensesCardPropsInterface
                     },
                     zoom: {
                         enabled: false
-                    }
+                    },
+                    width: '100%'
                 },
                 colors: [theme.palette.success.main, theme.palette.error.main, theme.palette.info.main],
                 dataLabels: {
@@ -101,12 +102,11 @@ export function BigNumberExpensesCard(props: BigNumberExpensesCardPropsInterface
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            minWidth: 320
+            minWidth: 320,
         }}>
-            <div id="chart">
-                <ApexCharts options={chartOptions.options} series={chartOptions.series} type="area" height={350}
-                            width={1000}/>
-            </div>
+            <Box sx={{width: '100%'}}>
+                <ApexCharts options={chartOptions.options} series={chartOptions.series} type="area" height={350}/>
+            </Box>
         </Card>
     );
 }

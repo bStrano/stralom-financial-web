@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import {ApexOptions} from "apexcharts";
 import {useTheme} from "@mui/material/styles";
 import {CashFlowCompiledGroupedByCategoryInterface} from "@core/modules/statistics/CashFlowCompiledGroupedByCategory";
+import Box from "@mui/material/Box";
 
 const ApexCharts = dynamic(() => import('react-apexcharts'), {ssr: false});
 
@@ -14,12 +15,15 @@ interface BigNumberCategoriesCardPropsInterface {
 
 export function BigNumberCategoriesCard(props: BigNumberCategoriesCardPropsInterface) {
     const theme = useTheme();
-
     const chartOptions: { options: ApexOptions, series: number[] } = useMemo(() => {
         return {
             options: {
+                stroke: {
+                    show: false
+                },
                 chart: {
                     type: 'donut',
+                    width: '100%'
                 },
                 dataLabels: {
                     enabled: false,
@@ -81,16 +85,20 @@ export function BigNumberCategoriesCard(props: BigNumberCategoriesCardPropsInter
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            minWidth: 320
+            minWidth: 320,
+            height: 430
         }}>
-            <ApexCharts
-                options={chartOptions.options}
-                series={chartOptions.series}
-                type="donut"
-                height={350}
-                width={500}
+            <Box sx={{width: '100%'}}>
+                <ApexCharts
+                    options={chartOptions.options}
+                    series={chartOptions.series}
+                    type="donut"
+                    height={350}
+                    width={450}
 
-            />
+                />
+            </Box>
+
         </Card>
     )
 }

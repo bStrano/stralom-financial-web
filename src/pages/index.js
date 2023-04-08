@@ -35,11 +35,11 @@ export function Home() {
             </Grid>
 
             <Grid container spacing={2}>
-                <Grid sm xs md>
+                <Grid sm xs lg={12} xl={8}>
                     <BigNumberExpensesCard isLoading={cashFlowByDayCompleteQuery.isLoading}
                                            data={cashFlowByDayCompleteQuery.data}/>
                 </Grid>
-                <Grid sm={12} xs={12} md={4}>
+                <Grid sm={12} xs={12} xl={4}>
                     <BigNumberCategoriesCard isLoading={cashFlowCategoryExpenseQuery.isLoading}
                                              data={cashFlowCategoryExpenseQuery.data}/>
                 </Grid>
