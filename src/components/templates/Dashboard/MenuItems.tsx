@@ -3,8 +3,6 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import PeopleIcon from '@mui/icons-material/People';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import {useRouter} from "next/router";
 import List from "@mui/material/List";
@@ -16,14 +14,17 @@ export const MenuItems = () => {
     const [transactionCollapsed, setTransactionCollapsed] = React.useState(true);
 
 
-
     const handleListTransactionMenuClick = async () => {
         await router.push('/transactions');
     }
 
+    const handleDashboardMenuClick = async () => {
+        await router.push('/');
+    }
+
     return <React.Fragment>
         <List
-            sx={{ width: '100%', maxWidth: 360}}
+            sx={{width: '100%', maxWidth: 360}}
             component="nav"
             aria-labelledby="nested-list-subheader"
             subheader={
@@ -32,17 +33,17 @@ export const MenuItems = () => {
                 </ListSubheader>
             }
         >
-            <ListItemButton style={{padding: 20}}>
+            <ListItemButton style={{padding: 20}} id={'dashboard-menu'} onClick={handleDashboardMenuClick}>
                 <ListItemIcon>
                     <DashboardIcon/>
                 </ListItemIcon>
-                <ListItemText primary="Dashboard" />
+                <ListItemText primary="Dashboard"/>
             </ListItemButton>
             <ListItemButton style={{padding: 20}} id={'transaction-menu'} onClick={handleListTransactionMenuClick}>
                 <ListItemIcon>
-                    <TransactionIcon />
+                    <TransactionIcon/>
                 </ListItemIcon>
-                <ListItemText primary="Transações" />
+                <ListItemText primary="Transações"/>
             </ListItemButton>
         </List>
     </React.Fragment>

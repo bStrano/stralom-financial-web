@@ -12,6 +12,7 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
+import {useSessionContext} from "../../providers/SessionProvider";
 
 function Copyright(props: any) {
     return (
@@ -28,23 +29,26 @@ function Copyright(props: any) {
 
 const theme = createTheme();
 
+
 export default function SignInSide() {
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const sessionContext = useSessionContext();
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
+        await sessionContext.login(data.get('email') as string, data.get('password') as string)
     };
 
     return (
         <ThemeProvider theme={theme}>
-            <Grid container component="main" sx={{ height: '100vh' }}>
-                <CssBaseline />
+            <Grid container component="main" sx={{height: '100vh'}}>
+                <CssBaseline/>
                 <Grid
                     item
                     xs={false}
                     sm={4}
                     md={7}
                     sx={{
-                        backgroundImage: 'url(https://source.unsplash.com/random)',
+                        backgroundImage: 'url(https://media.istockphoto.com/id/1225817369/photo/3d-render-abstract-background-with-bright-neon-light-pink-blue-violet-vertical-glowing-lines.jpg?b=1&s=170667a&w=0&k=20&c=ur51BeJIJP8szMuzZVzcIhbrel6NLhOHVf-jNmz1wSw=)',
                         backgroundRepeat: 'no-repeat',
                         backgroundColor: (t) =>
                             t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],

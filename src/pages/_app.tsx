@@ -5,6 +5,9 @@ import "@fontsource/montserrat";
 import CssBaseline from "@mui/material/CssBaseline";
 import ThemeProvider from "../theme"
 import {QueryClient, QueryClientProvider} from "react-query";
+import {SessionProvider} from "../providers/SessionProvider";
+import {RouteGuard} from "../guards/RouteGuard";
+import {AlertProvider} from "../providers/AlertProvider";
 
 // const darkTheme = createTheme({
 //     palette: {
@@ -27,10 +30,16 @@ export default function MyApp({Component, pageProps}) {
     return (
         <QueryClientProvider client={queryClient}>
             <ThemeProvider>
+                <AlertProvider>
+                    <SessionProvider>
+                        <RouteGuard>
+                            <TransactionProvider>
+                                {getLayout(<Component {...pageProps} />)}
+                            </TransactionProvider>
+                        </RouteGuard>
+                    </SessionProvider>
+                </AlertProvider>
                 <CssBaseline/>
-                <TransactionProvider>
-                    {getLayout(<Component {...pageProps} />)}
-                </TransactionProvider>
             </ThemeProvider>
         </QueryClientProvider>
     )
