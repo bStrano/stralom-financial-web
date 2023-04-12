@@ -22,7 +22,7 @@ jobs:
         context: .
         file: ./Dockerfile-Prod
         push: true
-        tags: blstrano/stralom-financial-api:latest
+        tags: blstrano/stralom-financial-web:latest
         build-args: |
           SSH_MAIN_PRIVATE_KEY=${{ secrets.SSH_MAIN_PRIVATE_KEY }}
           SSH_CORE_PRIVATE_KEY=${{ secrets.SSH_CORE_PRIVATE_KEY }}
