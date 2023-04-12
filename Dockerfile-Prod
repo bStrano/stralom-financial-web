@@ -1,0 +1,59 @@
+FROM node:alpine
+
+# Set environment variables for git
+ENV GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+# Install git and openssh-client for cloning private repos
+RUN apk update && apk upgrade && apk add git openssh-client
+#
+## Set up SSH key for private repository access
+ARG SSH_MAIN_PRIVATE_KEY
+ARG SSH_CORE_PRIVATE_KEY
+ENV NEXT_PUBLIC_ENDPOINT="https://api-financial.stralom.com/api/financial/"
+ENV NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY="AIzaSyAP5Z6VXUoK9NHbwb6P97ZjxKKNUsBs0_E"
+ENV NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN="stralomauthentication.firebaseapp.com"
+ENV NEXT_PUBLIC_FIREBASE_PROJECT_ID="stralomauthentication"
+ENV NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET="stralomauthentication.appspot.com"
+ENV NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID="83178434542"
+ENV NEXT_PUBLIC_FIREBASE_APP_ID="1:83178434542:web:cb98f5066c3184f51aa8ff"
+ENV NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID="G-D0H8WTWXLC"
+
+RUN mkdir -p /root/.ssh && \
+    chmod 0700 /root/.ssh && \
+    ssh-keyscan github.com >> /root/.ssh/known_hosts && \
+    echo "${SSH_MAIN_PRIVATE_KEY}" | tr ' ' '\n' > /root/.ssh/id_rsa && \
+    echo "${SSH_CORE_PRIVATE_KEY}" |  tr ' ' '\n' > /root/.ssh/stralom_core_rsa && \
+    echo '/root/.ssh/id_rsa /root/.ssh/stralom_core_rsa' | xargs -n 1 sed -i -e '1s/^/-----BEGIN OPENSSH PRIVATE KEY-----\n/' -e '$s/$/\n-----END OPENSSH PRIVATE KEY-----/' && \
+    chmod 0400 /root/.ssh/id_rsa /root/.ssh/stralom_core_rsa && \
+    eval "$(ssh-agent -s)" && \
+    cat /root/.ssh/id_rsa && \
+    cat /root/.ssh/stralom_core_rsa && \
+    ssh-add /root/.ssh/id_rsa  && \
+    ssh-add /root/.ssh/stralom_core_rsa
+
+RUN echo "Host github.com-stralom-api$ \
+              HostName github.com$ \
+              User git$ \
+              IdentityFile /root/.ssh/id_rsa$ \
+          Host github.com-stralom-core$ \
+              HostName github.com$ \
+              User git$ \
+              IdentityFile /root/.ssh/stralom_core_rsa" |  tr '$' '\n'> /root/.ssh/config
+
+WORKDIR /app
+
+#Clone the private repository with submodules
+RUN git clone git@github.com:bStrano/stralom-financial-web.git .
+
+RUN sed -i 's/git@github\.com:bStrano\/Stralom-Financial-Core\.git/ssh:\/\/github\.com-stralom-core\/bStrano\/Stralom-Financial-Core\.git/g' .gitmodules
+#
+RUN  git submodule update --init --recursive
+RUN cd libs/stralom-financial-core && git checkout master && git pull
+
+COPY package.json /app
+RUN yarn install
+
+RUN yarn build
+EXPOSE 3000
+
+CMD ["yarn","start"]
+
