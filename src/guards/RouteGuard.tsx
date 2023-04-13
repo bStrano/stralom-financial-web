@@ -26,12 +26,13 @@ export function RouteGuard({children}) {
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [sessionContext.isLoading, sessionContext.user]);
 
     function authCheck(url) {
         // redirect to login page if accessing a private page and not logged in
         const publicPaths = ['/login'];
         const path = url.split('?')[0];
+
         if (!sessionContext.isLoading && !sessionContext.user && !publicPaths.includes(path)) {
             setAuthorized(false);
             router.push({

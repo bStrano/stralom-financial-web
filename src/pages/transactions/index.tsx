@@ -85,7 +85,6 @@ export default function TransactionScreen(props: TransactionScreenPropsInterface
                         </TableCell>
                         <TableCell align="left">
                             {formatCurrency(row.value, {
-                                prefix: "R$ ",
                                 minimumFractionDigits: 2,
                                 maximumFractionDigits: 2
                             })}

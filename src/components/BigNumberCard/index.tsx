@@ -1,13 +1,12 @@
 import React, {useMemo} from 'react';
 import {Card} from "@mui/material";
 import Typography from "@mui/material/Typography";
-import {IoMdTrendingUp} from "react-icons/io";
-import {useTheme} from "@mui/material/styles";
 import dynamic from "next/dynamic";
 import {ApexOptions} from "apexcharts";
 import {CircleIcon} from "../CircleIcon";
 import {CashFlowStatisticsInterface} from "@core/modules/statistics/CashFlowStatistcs";
 import {formatCurrency} from "../../utils/numbers.utils";
+import {IconType} from "react-icons";
 
 const ApexCharts = dynamic(() => import('react-apexcharts'), {ssr: false});
 
@@ -16,11 +15,14 @@ interface BigNumberCardPropsInterface {
     title: string;
     data: CashFlowStatisticsInterface;
     isLoading: boolean;
-    prefix?: string
+    prefix?: string;
+    color: string;
+    backgroundColor: string;
+    icon: IconType
 }
 
 export function BigNumberCard(props: BigNumberCardPropsInterface) {
-    const theme = useTheme();
+    const Icon = props.icon;
 
     const chartOptions: { options: ApexOptions, series: ApexAxisChartSeries } = useMemo(() => {
         return {
@@ -41,7 +43,7 @@ export function BigNumberCard(props: BigNumberCardPropsInterface) {
                     axisTicks: {
                         show: false
                     },
-                    categories: props.data?.values.map(item => `${item.month}/${item.year}`)
+                    categories: props.data?.values?.map(item => `${item.month}/${item.year}`)
                 },
                 yaxis: {
                     labels: {
@@ -86,7 +88,7 @@ export function BigNumberCard(props: BigNumberCardPropsInterface) {
             series: [
                 {
                     name: props.title,
-                    data: props.data?.values.map(item => item.total)
+                    data: props.data?.values?.map(item => item.total)
                 }
             ]
         }
@@ -117,8 +119,8 @@ export function BigNumberCard(props: BigNumberCardPropsInterface) {
                     marginTop: 20,
                     marginBottom: 10
                 }}>
-                    <CircleIcon icon={<IoMdTrendingUp color={theme.palette.success.main} size={18}/>}
-                                backgroundColor={theme.palette.success.darker} size={30}/>
+                    <CircleIcon icon={<Icon color={props.color} size={18}/>}
+                                backgroundColor={props.backgroundColor + "45"} size={30}/>
 
 
                     <Typography sx={{marginLeft: 2, fontWeight: 'bold'}}>
