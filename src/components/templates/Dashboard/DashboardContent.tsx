@@ -1,11 +1,11 @@
 import * as React from "react";
+import {useCallback, useEffect} from "react";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Typography from "@mui/material/Typography";
-import Badge from "@mui/material/Badge";
-import NotificationsIcon from "@mui/icons-material/Notifications";
+import LogoutIcon from "@mui/icons-material/Logout";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
@@ -14,6 +14,9 @@ import Container from "@mui/material/Container";
 import {Drawer} from "./Drawer";
 import {AppBar} from "./AppBar";
 import {Breadcrumbs} from "@mui/material";
+import useMediaQuery from '@mui/material/useMediaQuery';
+import {useTheme} from "@mui/material/styles";
+import {useSessionContext} from "../../../providers/SessionProvider";
 
 
 interface DashboardContentProps {
@@ -24,10 +27,25 @@ interface DashboardContentProps {
 }
 
 export function DashboardContent({children, title, subtitle, topContent}: DashboardContentProps) {
+    const theme = useTheme();
+    const sessionContext = useSessionContext();
+    const matches = useMediaQuery(theme.breakpoints.up('sm'));
     const [open, setOpen] = React.useState(true);
+
+    useEffect(() => {
+        if (!matches && open) {
+            setOpen(false)
+        }
+    }, [matches, open])
+
     const toggleDrawer = () => {
         setOpen(!open);
     };
+
+
+    const logout = useCallback(async () => {
+        await sessionContext.logout()
+    }, [sessionContext])
 
     return (
         <Box sx={{display: 'flex'}}>
@@ -37,18 +55,23 @@ export function DashboardContent({children, title, subtitle, topContent}: Dashbo
                         pr: '24px', // keep right padding when drawer closed
                     }}
                 >
-                    <IconButton
-                        edge="start"
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={toggleDrawer}
-                        sx={{
-                            marginRight: '36px',
-                            ...(open && {display: 'none'}),
-                        }}
-                    >
-                        <MenuIcon/>
-                    </IconButton>
+                    {
+                        matches && (
+                            <IconButton
+                                edge="start"
+                                color="inherit"
+                                aria-label="open drawer"
+                                onClick={toggleDrawer}
+                                sx={{
+                                    marginRight: '36px',
+                                    ...(open && {display: 'none'}),
+                                }}
+                            >
+                                <MenuIcon/>
+                            </IconButton>
+                        )
+                    }
+
                     <Typography
                         component="h1"
                         variant="h6"
@@ -58,10 +81,8 @@ export function DashboardContent({children, title, subtitle, topContent}: Dashbo
                     >
                         {title}
                     </Typography>
-                    <IconButton color="inherit">
-                        <Badge badgeContent={4} color="secondary">
-                            <NotificationsIcon/>
-                        </Badge>
+                    <IconButton color="inherit" onClick={logout}>
+                        <LogoutIcon/>
                     </IconButton>
                 </Toolbar>
             </AppBar>
