@@ -12,6 +12,7 @@ import {useTheme} from "@mui/material/styles";
 import {IoMdTrendingDown, IoMdTrendingUp} from "react-icons/io";
 import {TransactionInterface} from "@core/modules/transactions/entities/TransactionInterface";
 import {TransactionTypeEnum} from "@core/modules/transactions/enums/TransactionTypeEnum";
+import {formatCurrency} from "../../utils/numbers.utils";
 
 interface TransactionScreenPropsInterface {
 
@@ -82,7 +83,13 @@ export default function TransactionScreen(props: TransactionScreenPropsInterface
                         >
                             {row.description}
                         </TableCell>
-                        <TableCell align="left">{row.value}</TableCell>
+                        <TableCell align="left">
+                            {formatCurrency(row.value, {
+                                prefix: "R$ ",
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2
+                            })}
+                        </TableCell>
                         <TableCell align="left">{row.category.name}</TableCell>
                         <TableCell align="left">{format(new Date(row.date), 'dd/MM/yyyy')}</TableCell>
                     </>

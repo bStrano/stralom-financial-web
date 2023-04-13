@@ -7,6 +7,7 @@ import dynamic from "next/dynamic";
 import {ApexOptions} from "apexcharts";
 import {CircleIcon} from "../CircleIcon";
 import {CashFlowStatisticsInterface} from "@core/modules/statistics/CashFlowStatistcs";
+import {formatCurrency} from "../../utils/numbers.utils";
 
 const ApexCharts = dynamic(() => import('react-apexcharts'), {ssr: false});
 
@@ -48,6 +49,25 @@ export function BigNumberCard(props: BigNumberCardPropsInterface) {
                     }
                 },
                 tooltip: {
+                    theme: 'dark',
+                    style: {
+                        fontSize: '14px',
+                        fontFamily: 'Helvetica, Arial, sans-serif',
+                    },
+                    y: {
+                        formatter: function (val) {
+                            return formatCurrency(val, {minimumFractionDigits: 0, maximumFractionDigits: 0});
+                        }
+                    },
+                    x: {
+                        formatter: function (val) {
+                            if (val.toString().length === 6) {
+                                return '0' + val;
+                            } else {
+                                return val.toString();
+                            }
+                        }
+                    },
                     enabled: true,
                 },
                 grid: {
@@ -106,7 +126,7 @@ export function BigNumberCard(props: BigNumberCardPropsInterface) {
                     </Typography>
                 </div>
                 <Typography variant="h3">
-                    {props.prefix} {props.data.current}
+                    {formatCurrency(props.data.current, {minimumFractionDigits: 0, maximumFractionDigits: 0})}
                 </Typography>
             </div>
             <div>

@@ -11,6 +11,7 @@ import IconButton from "@mui/material/IconButton";
 import {CloseIcon} from "../../theme/overrides/CustomIcons";
 import {CategorySelector} from "../../components/CategorySelector/CategorySelector";
 import {useTransactionCategoriesList} from "../../hooks/queries/useTransactionCategoriesList";
+import ControlledDatePicker from "../../components/ControlledDatePicker";
 
 interface TransactionRegisterModalPropsInterface {
     open: boolean;
@@ -51,18 +52,10 @@ export function TransactionRegisterModal(props: TransactionRegisterModalPropsInt
                                              margin="normal" type={'text'}
                                              fullWidth={true} required/>
                         <ControlledTextField id="value" label="Valor" variant="outlined" margin="normal"
-                                             fullWidth={true} type={'number'} required/>
-                        <ControlledTextField
-                            margin="normal"
-                            id="date"
-                            label="Data da transação"
-                            type="date"
-                            fullWidth={true}
-                            defaultValue={new Date()}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                        />
+                                             mask={{type: 'currency'}}
+                                             fullWidth={true} type={'text'} required/>
+                        <ControlledDatePicker id={'date'} label={"Data"} defaultValue={new Date()}
+                                              slotProps={{textField: {fullWidth: true}}} sx={{marginTop: 3}}/>
 
                         <ControlledSubmitButton id={'transaction-register-submit'} variant="contained"
                                                 color="success"

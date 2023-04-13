@@ -11,7 +11,10 @@ const keys = {
 }
 
 async function register(transaction: TransactionRegisterDTO) {
-    const {data} = await axiosDefault.post<TransactionCategoryInterface[]>('transaction', transaction)
+    const {data} = await axiosDefault.post<TransactionCategoryInterface[]>('transaction', {
+        ...transaction,
+        value: transaction.value_raw
+    })
     return data;
 }
 

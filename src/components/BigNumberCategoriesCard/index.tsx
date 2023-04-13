@@ -5,6 +5,7 @@ import {ApexOptions} from "apexcharts";
 import {useTheme} from "@mui/material/styles";
 import {CashFlowCompiledGroupedByCategoryInterface} from "@core/modules/statistics/CashFlowCompiledGroupedByCategory";
 import Box from "@mui/material/Box";
+import {formatCurrency} from "../../utils/numbers.utils";
 
 const ApexCharts = dynamic(() => import('react-apexcharts'), {ssr: false});
 
@@ -46,21 +47,28 @@ export function BigNumberCategoriesCard(props: BigNumberCategoriesCardPropsInter
                                     fontSize: '32px',
                                     fontFamily: 'Helvetica, Arial, sans-serif',
                                     fontWeight: 700,
-                                    color: undefined,
+                                    color: theme.palette.text.primary,
                                     offsetY: 10,
                                     formatter: function (val) {
-                                        return Number(val).toFixed(2);
+                                        return formatCurrency(Number(val), {
+                                            minimumFractionDigits: 0,
+                                            maximumFractionDigits: 0
+                                        });
                                     },
                                 },
                                 total: {
                                     show: true,
                                     showAlways: false,
                                     label: 'Total',
-                                    color: '#373d3f',
+                                    color: theme.palette.text.primary,
                                     formatter: function (w) {
-                                        return w.globals.seriesTotals.reduce((a, b) => {
+                                        const total = w.globals.seriesTotals.reduce((a, b) => {
                                             return a + b;
                                         }, 0);
+                                        return formatCurrency(total, {
+                                            minimumFractionDigits: 0,
+                                            maximumFractionDigits: 0
+                                        });
                                     },
                                 },
                             },

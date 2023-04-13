@@ -11,7 +11,10 @@ export class TransactionRegisterDTO {
     @IsNumber({allowNaN: false, maxDecimalPlaces: 2}, {message: "O valor da transação invalído."})
     @IsNotEmpty({message: 'O valor da transação é obrigatório.'})
     @Type(() => Number)
-    value: number;
+    value_raw: number;
+    @IsString({message: "O valor da transação invalído."})
+    @IsNotEmpty({message: 'O valor da transação é obrigatório.'})
+    value: string;
     @IsString()
     @IsNotEmpty({message: 'O numero de parcelas é obrigatório'})
     type: 'incomming' | 'outcomming';

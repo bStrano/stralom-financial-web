@@ -8,6 +8,8 @@ import {QueryClient, QueryClientProvider} from "react-query";
 import {SessionProvider} from "../providers/SessionProvider";
 import {RouteGuard} from "../guards/RouteGuard";
 import {AlertProvider} from "../providers/AlertProvider";
+import {LocalizationProvider} from "@mui/x-date-pickers";
+import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
 
 // const darkTheme = createTheme({
 //     palette: {
@@ -29,18 +31,20 @@ export default function MyApp({Component, pageProps}) {
 
     return (
         <QueryClientProvider client={queryClient}>
-            <ThemeProvider>
-                <AlertProvider>
-                    <SessionProvider>
-                        <RouteGuard>
-                            <TransactionProvider>
-                                {getLayout(<Component {...pageProps} />)}
-                            </TransactionProvider>
-                        </RouteGuard>
-                    </SessionProvider>
-                </AlertProvider>
-                <CssBaseline/>
-            </ThemeProvider>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <ThemeProvider>
+                    <AlertProvider>
+                        <SessionProvider>
+                            <RouteGuard>
+                                <TransactionProvider>
+                                    {getLayout(<Component {...pageProps} />)}
+                                </TransactionProvider>
+                            </RouteGuard>
+                        </SessionProvider>
+                    </AlertProvider>
+                    <CssBaseline/>
+                </ThemeProvider>
+            </LocalizationProvider>
         </QueryClientProvider>
     )
 };
