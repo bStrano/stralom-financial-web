@@ -29,6 +29,12 @@ export function BigNumberCategoriesCard(props: BigNumberCategoriesCardPropsInter
                 dataLabels: {
                     enabled: false,
                 },
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        colors: [theme.palette.text.secondary], // set legend text color to white
+                    },
+                },
                 plotOptions: {
                     pie: {
                         donut: {

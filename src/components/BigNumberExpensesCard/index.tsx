@@ -61,6 +61,13 @@ export function BigNumberExpensesCard(props: BigNumberExpensesCardPropsInterface
                 },
                 xaxis: {
                     categories: props.data?.days.map(item => item.date.slice(0, 5)),
+                    labels: {
+                        style: {
+                            colors: theme.palette.text.secondary,
+                        }
+                    },
+                    rotate: 45,
+                    tickAmount: 15,
                 },
                 yaxis: [
                     {
@@ -69,11 +76,10 @@ export function BigNumberExpensesCard(props: BigNumberExpensesCardPropsInterface
                         },
                         axisBorder: {
                             show: true,
-                            color: '#008FFB'
                         },
                         labels: {
                             style: {
-                                colors: '#008FFB',
+                                colors: theme.palette.text.secondary,
                             }
                         },
                         tooltip: {
@@ -87,7 +93,11 @@ export function BigNumberExpensesCard(props: BigNumberExpensesCardPropsInterface
                 },
                 legend: {
                     horizontalAlign: 'center',
-                    offsetX: 40
+                    offsetX: 40,
+                    position: 'bottom',
+                    labels: {
+                        colors: [theme.palette.text.primary], // set legend text color to white
+                    },
                 }
             },
         }
