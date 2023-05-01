@@ -10,6 +10,6 @@ export function CategorySelector(props: CategorySelectorPropsInterface) {
     const {transactionCategories} = useTransactionCategoriesList();
 
     return (
-        <Dropdown label={"Categoria"} id={'category'} items={transactionCategories.data || []}/>
+        <Dropdown label={"Categoria"} id={props.id} items={transactionCategories.data || []}/>
     );
 }

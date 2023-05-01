@@ -18,3 +18,9 @@ export function formatCurrency(value: number, options = initialValues) {
     }
     return formattedValue;
 }
+
+
+export function formatPercentage(value: number) {
+    let formattedValue = value.toLocaleString('pt-br', {minimumFractionDigits: 2, maximumFractionDigits: 2})
+    return formattedValue + '%';
+}
