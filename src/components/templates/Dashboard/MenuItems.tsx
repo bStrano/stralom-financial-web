@@ -7,6 +7,7 @@ import {useRouter} from "next/router";
 import List from "@mui/material/List";
 import DashboardIcon from "../../../icons/DashboardIcon";
 import TransactionIcon from "../../../icons/TransactionIcon";
+import InvestmentIcon from 'src/icons/InvestmentIcon';
 
 export const MenuItems = () => {
     const router = useRouter()
@@ -15,6 +16,10 @@ export const MenuItems = () => {
 
     const handleListTransactionMenuClick = async () => {
         await router.push('/transactions');
+    }
+
+    const handleListInvestmentsMenuClick = async () => {
+        await router.push('/investments');
     }
 
     const handleDashboardMenuClick = async () => {
@@ -43,6 +48,12 @@ export const MenuItems = () => {
                     <TransactionIcon/>
                 </ListItemIcon>
                 <ListItemText primary="Transações"/>
+            </ListItemButton>
+            <ListItemButton style={{padding: 20}} id={'investments-menu'} onClick={handleListInvestmentsMenuClick}>
+                <ListItemIcon>
+                    <InvestmentIcon/>
+                </ListItemIcon>
+                <ListItemText primary="Investimentos"/>
             </ListItemButton>
         </List>
     </React.Fragment>

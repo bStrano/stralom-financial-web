@@ -65,7 +65,7 @@ export default function TransactionScreen(props: TransactionScreenPropsInterface
         </Breadcrumbs>}>
             <EnhancedTable
                 toolbarProps={{title: "Transações", buttonLabel: "Nova transação", buttonOnPress: onRegister}}
-                onDelete={(ids) => onDelete(ids)}
+                onDelete={(ids) => onDelete(ids as string[])}
                 rows={transactionContext.transactions || []} headCells={headCells}
                 renderRows={(row: TransactionInterface) => (
                     <>

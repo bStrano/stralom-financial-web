@@ -38,7 +38,7 @@ function ControlledTextField({mask, id, ...restProps}: IControlledTextFieldProps
             customInput={TextField}
             onValueChange={(values) => {
                 field.onChange(values.formattedValue)
-                formContext.setValue(id + "_raw", values.value);
+                formContext.setValue(id + "_raw", Number(values.value));
             }}
             value={field.value}
             error={Boolean(fieldState.error)}

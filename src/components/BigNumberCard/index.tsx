@@ -124,7 +124,7 @@ export function BigNumberCard(props: BigNumberCardPropsInterface) {
 
 
                     <Typography sx={{marginLeft: 2, fontWeight: 'bold'}}>
-                        {props.data.percentage?.toFixed(2) || 0}%
+                        {props.data?.percentage?.toFixed(2) || 0}%
                     </Typography>
                 </div>
                 <Typography variant="h3">

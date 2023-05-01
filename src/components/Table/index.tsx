@@ -18,8 +18,10 @@ interface EnchantedTableProps {
 
     renderRows(item: any): JSX.Element
 
-    onDelete(ids: string[]): Promise<void>
+    onDelete(ids: string[] | string): Promise<void>
+
     toolbarProps: EnchantedTableToolbarProps;
+    disabled?: boolean;
 }
 export default function EnhancedTable(props: EnchantedTableProps) {
     const rows = props.rows;
@@ -46,6 +48,7 @@ export default function EnhancedTable(props: EnchantedTableProps) {
     };
 
     const handleClick = (event, name) => {
+        if (props.disabled) return;
         const selectedIndex = selected.indexOf(name);
         let newSelected = [];
 
