@@ -22,6 +22,10 @@ export const MenuItems = () => {
         await router.push('/investments');
     }
 
+    const handleEquityDashboardMenuClick = async () => {
+        await router.push('/equity/statistics');
+    }
+
     const handleDashboardMenuClick = async () => {
         await router.push('/');
     }
@@ -42,6 +46,12 @@ export const MenuItems = () => {
                     <DashboardIcon/>
                 </ListItemIcon>
                 <ListItemText primary="Dashboard"/>
+            </ListItemButton>
+            <ListItemButton style={{padding: 20}} id={'equity-dashboard-menu'} onClick={handleEquityDashboardMenuClick}>
+                <ListItemIcon>
+                    <TransactionIcon/>
+                </ListItemIcon>
+                <ListItemText primary="Dashboard Patrimonio"/>
             </ListItemButton>
             <ListItemButton style={{padding: 20}} id={'transaction-menu'} onClick={handleListTransactionMenuClick}>
                 <ListItemIcon>
