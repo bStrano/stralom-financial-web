@@ -10,13 +10,12 @@ const ApexCharts = dynamic(() => import('react-apexcharts'), {ssr: false});
 
 interface MultiChartPropsInterface {
     isLoading: boolean;
-    series: [
-        { name: string, type: string, data: number[] }
-    ],
+    series: { name: string, type: string, data: number[] }[]
     labels: string[],
     colors: string[],
     title?: string,
 }
+
 
 export function MultiChart(props: MultiChartPropsInterface) {
     const theme = useTheme();
