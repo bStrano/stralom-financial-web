@@ -1,6 +1,6 @@
 import React, {useMemo} from 'react';
 import {useTheme} from "@mui/material/styles";
-import {DonutChart} from "../../../../components/DonutChart";
+import {DonutChart} from "../DonutChart";
 import {EquityDistributionInterface} from "@core/modules/statistics/equity/EquityDistributionInterface";
 
 interface BigNumberCategoriesCardPropsInterface {
