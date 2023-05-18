@@ -2,10 +2,10 @@ import Grid from "@mui/material/Grid";
 import React from "react";
 import {DashboardProvider} from "src/providers/DashboardProvider";
 import Core from "src/components/templates/Dashboard";
-import {BigNumberEquityCard} from "./EquityDistributionCard";
+import {BigNumberEquityCard} from "../../../components/EquityDistributionCard";
 import {useBigNumberEquityDistribution} from "../../../hooks/queries/useBigNumberEquityDistribution";
 import {useBigNumberEquityEvolution} from "../../../hooks/queries/useBigNumberEquityEvolution";
-import {EquityEvolutionCard} from "./EquityEvolutionCard";
+import {EquityEvolutionCard} from "../../../components/EquityEvolutionCard";
 
 
 export default function DashboardRoute() {

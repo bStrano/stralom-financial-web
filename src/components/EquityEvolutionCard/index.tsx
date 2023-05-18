@@ -1,5 +1,5 @@
 import React, {useMemo} from 'react';
-import {MultiChart} from "../../../../components/MultiChart";
+import {MultiChart} from "../MultiChart";
 import {
     EquityEvolutionAccumulateValuesInterface
 } from '@core/modules/statistics/equity/EquityEvolutionAccumulateValuesInterface';
