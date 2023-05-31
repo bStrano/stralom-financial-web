@@ -1,13 +1,27 @@
 FROM node:alpine
 
-# Set environment variables for git
-ENV GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
-# Install git and openssh-client for cloning private repos
-RUN apk update && apk upgrade && apk add git openssh-client
+ARG AWS_ACCESS_KEY_ID
+ARG AWS_SECRET_ACCESS_KEY
+ARG AWS_ACCESS_REGION
+
+ENV AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+ENV AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+ENV AWS_DEFAULT_REGION=${AWS_ACCESS_REGION}
+
+RUN apk update && apk upgrade && apk add nano git openssh-client
+
+
+RUN apk --no-cache add python3 py3-pip
+
+RUN  pip3 install --upgrade pip \
+  && pip3 install --no-cache-dir awscli
+
+# Downloading necessary configuration files
+RUN aws s3 cp s3://stralom-deploys/financial/ssh/financial_web_deploy /root/.ssh/financial_deploy
+RUN aws s3 cp s3://stralom-deploys/financial/ssh/financial_core_deploy /root/.ssh/financial_core_deploy
+RUN aws s3 cp s3://stralom-deploys/financial/ssh/config /root/.ssh/config
 #
 ## Set up SSH key for private repository access
-ARG SSH_MAIN_PRIVATE_KEY
-ARG SSH_CORE_PRIVATE_KEY
 ENV NEXT_PUBLIC_ENDPOINT="https://api-financial.stralom.com/api/financial/"
 ENV NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY="AIzaSyAP5Z6VXUoK9NHbwb6P97ZjxKKNUsBs0_E"
 ENV NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN="stralomauthentication.firebaseapp.com"
@@ -17,27 +31,15 @@ ENV NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID="83178434542"
 ENV NEXT_PUBLIC_FIREBASE_APP_ID="1:83178434542:web:cb98f5066c3184f51aa8ff"
 ENV NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID="G-D0H8WTWXLC"
 
+ENV GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 RUN mkdir -p /root/.ssh && \
     chmod 0700 /root/.ssh && \
     ssh-keyscan github.com >> /root/.ssh/known_hosts && \
-    echo "${SSH_MAIN_PRIVATE_KEY}" | tr ' ' '\n' > /root/.ssh/id_rsa && \
-    echo "${SSH_CORE_PRIVATE_KEY}" |  tr ' ' '\n' > /root/.ssh/stralom_core_rsa && \
-    echo '/root/.ssh/id_rsa /root/.ssh/stralom_core_rsa' | xargs -n 1 sed -i -e '1s/^/-----BEGIN OPENSSH PRIVATE KEY-----\n/' -e '$s/$/\n-----END OPENSSH PRIVATE KEY-----/' && \
-    chmod 0400 /root/.ssh/id_rsa /root/.ssh/stralom_core_rsa && \
+    chmod 0400 /root/.ssh/financial_deploy /root/.ssh/financial_core_deploy && \
     eval "$(ssh-agent -s)" && \
-    cat /root/.ssh/id_rsa && \
-    cat /root/.ssh/stralom_core_rsa && \
-    ssh-add /root/.ssh/id_rsa  && \
-    ssh-add /root/.ssh/stralom_core_rsa
+    ssh-add /root/.ssh/financial_deploy  && \
+    ssh-add /root/.ssh/financial_core_deploy
 
-RUN echo "Host github.com-stralom-api$ \
-              HostName github.com$ \
-              User git$ \
-              IdentityFile /root/.ssh/id_rsa$ \
-          Host github.com-stralom-core$ \
-              HostName github.com$ \
-              User git$ \
-              IdentityFile /root/.ssh/stralom_core_rsa" |  tr '$' '\n'> /root/.ssh/config
 
 WORKDIR /app
 
