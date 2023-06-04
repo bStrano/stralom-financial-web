@@ -37,6 +37,10 @@ const headCells = [
     },
     {
         id: 5,
+        label: "Parcela",
+    },
+    {
+        id: 5,
         label: "Data"
     }]
 
@@ -56,6 +60,13 @@ export default function TransactionScreen(props: TransactionScreenPropsInterface
     if (transactionContext.transactionsQuery.isLoading) {
         return <div/>
     }
+
+    const getInstallmentValue = useCallback((transaction: TransactionInterface) => {
+        if (transaction.instalments > 1) {
+            return `${transaction.instalmentCurrent} de ${transaction.instalments}`
+        }
+        return "A VISTA"
+    }, [])
     return (
         <Core topContent={<Breadcrumbs aria-label="breadcrumb">
             <Link underline="hover" color="inherit" href="/">
@@ -90,6 +101,7 @@ export default function TransactionScreen(props: TransactionScreenPropsInterface
                             })}
                         </TableCell>
                         <TableCell align="left">{row.category.name}</TableCell>
+                        <TableCell align="left">{getInstallmentValue(row)}</TableCell>
                         <TableCell align="left">{format(new Date(row.date), 'dd/MM/yyyy')}</TableCell>
                     </>
                 )}

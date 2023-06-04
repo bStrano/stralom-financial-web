@@ -36,7 +36,7 @@ export function TransactionRegisterModal(props: TransactionRegisterModalPropsInt
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
-            <FormProvider validationSchema={TransactionRegisterDTO}>
+            <FormProvider validationSchema={TransactionRegisterDTO} defaultValues={{instalments: 1}}>
                 <Card sx={{minWidth: 400, ...style}}>
                     <CardHeader title="Nova transação"
                                 action={
@@ -47,13 +47,24 @@ export function TransactionRegisterModal(props: TransactionRegisterModalPropsInt
                     />
                     <CardContent>
                         <TransactionTypeButton/>
-                        <CategorySelector id={'category'}/>
+                        <CategorySelector id={'categoryId'}/>
                         <ControlledTextField id="description" label="Nome da transação" variant="outlined"
                                              margin="normal" type={'text'}
                                              fullWidth={true} required/>
+                        <ControlledTextField
+                            id="instalments"
+                            label="Parcelas"
+                            type="number"
+                            defaultValue={1}
+                            fullWidth
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                        />
                         <ControlledTextField id="value" label="Valor" variant="outlined" margin="normal"
                                              mask={{type: 'currency'}}
                                              fullWidth={true} type={'text'} required/>
+
                         <ControlledDatePicker id={'date'} label={"Data"} defaultValue={new Date()}
                                               slotProps={{textField: {fullWidth: true}}} sx={{marginTop: 3}}/>
 

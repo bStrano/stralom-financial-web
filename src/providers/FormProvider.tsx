@@ -6,6 +6,7 @@ import {ClassConstructor} from 'class-transformer';
 interface IFormProps {
     children: React.ReactNode;
     validationSchema: ClassConstructor<any>
+    defaultValues?: Record<string, any>
 }
 
 interface IFormContext {
@@ -22,13 +23,12 @@ interface IFormContext {
 export const FormContext = React.createContext({} as IFormContext );
 
 
-
-export const FormProvider = ({children, validationSchema }: IFormProps) => {
+export const FormProvider = ({children, validationSchema, defaultValues}: IFormProps) => {
     const resolver = useMemo(() => {
         return classValidatorResolver(validationSchema);
     }, [validationSchema])
 
-    const {control, handleSubmit, setValue} = useForm({resolver});
+    const {control, handleSubmit, setValue} = useForm({resolver, defaultValues},);
 
     return (
         <FormContext.Provider value={{control, handleSubmit, setValue}}>

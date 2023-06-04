@@ -1,10 +1,10 @@
-import {IsDate, IsNotEmpty, IsNumber, IsString} from "class-validator";
+import {IsDate, IsNotEmpty, IsNumber, IsString, IsUUID, Max} from "class-validator";
 import {Type} from "class-transformer";
 
 export class TransactionRegisterDTO {
-    @IsString()
+    @IsUUID()
     @IsNotEmpty({message: 'Selecione a categoria'})
-    category: string;
+    categoryId: string;
     @IsString()
     @IsNotEmpty({message: 'O nome da transação é obrigatório.'})
     description: string;
@@ -18,6 +18,11 @@ export class TransactionRegisterDTO {
     @IsString()
     @IsNotEmpty({message: 'O numero de parcelas é obrigatório'})
     type: 'incomming' | 'outcomming';
+    @IsNumber()
+    @Type(() => Number)
+    @Max(24, {message: "O numero máximo de parcelas é 24"})
+    @IsNotEmpty({message: 'O numero de parcelas é obrigatório'})
+    instalments: number;
     @IsDate()
     @IsNotEmpty({message: 'A data da transação é obrigatória.'})
     @Type(() => Date)
