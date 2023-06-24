@@ -40,7 +40,11 @@ const headCells = [
         label: "Parcela",
     },
     {
-        id: 5,
+        id: 6,
+        label: "Tags"
+    },
+    {
+        id: 7,
         label: "Data"
     }]
 
@@ -57,16 +61,19 @@ export default function TransactionScreen(props: TransactionScreenPropsInterface
         await transactionContext.onDelete(ids)
     }, [])
 
-    if (transactionContext.transactionsQuery.isLoading) {
-        return <div/>
-    }
-
     const getInstallmentValue = useCallback((transaction: TransactionInterface) => {
+        if (!transaction) return ''
         if (transaction.instalments > 1) {
             return `${transaction.instalmentCurrent} de ${transaction.instalments}`
         }
         return "A VISTA"
     }, [])
+
+
+    if (transactionContext.transactionsQuery.isLoading) {
+        return <div/>
+    }
+
     return (
         <Core topContent={<Breadcrumbs aria-label="breadcrumb">
             <Link underline="hover" color="inherit" href="/">
@@ -102,6 +109,9 @@ export default function TransactionScreen(props: TransactionScreenPropsInterface
                         </TableCell>
                         <TableCell align="left">{row.category.name}</TableCell>
                         <TableCell align="left">{getInstallmentValue(row)}</TableCell>
+                        <TableCell align="left" sx={{maxWidth: 150}}>
+                            {row.tags.length === 0 ? '-' : row.tags.map(item => item.name).toString()}
+                        </TableCell>
                         <TableCell align="left">{format(new Date(row.date), 'dd/MM/yyyy')}</TableCell>
                     </>
                 )}

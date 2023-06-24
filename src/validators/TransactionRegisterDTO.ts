@@ -1,5 +1,6 @@
-import {IsDate, IsNotEmpty, IsNumber, IsString, IsUUID, Max} from "class-validator";
+import {IsDate, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID, Max} from "class-validator";
 import {Type} from "class-transformer";
+import {TagInterface} from "@core/modules/tags/entities/TagInterface";
 
 export class TransactionRegisterDTO {
     @IsUUID()
@@ -27,4 +28,6 @@ export class TransactionRegisterDTO {
     @IsNotEmpty({message: 'A data da transação é obrigatória.'})
     @Type(() => Date)
     date: Date
+    @IsOptional()
+    tags: (TagInterface | string)[]
 }

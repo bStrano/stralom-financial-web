@@ -12,6 +12,8 @@ import {CloseIcon} from "../../theme/overrides/CustomIcons";
 import {CategorySelector} from "../../components/CategorySelector/CategorySelector";
 import {useTransactionCategoriesList} from "../../hooks/queries/useTransactionCategoriesList";
 import ControlledDatePicker from "../../components/ControlledDatePicker";
+import ControlledAutoCompleteMultiple from './TagInput';
+import {useTags} from "../../hooks/queries/tags/useTags";
 
 interface TransactionRegisterModalPropsInterface {
     open: boolean;
@@ -23,6 +25,9 @@ export function TransactionRegisterModal(props: TransactionRegisterModalPropsInt
     const transactionContext = useTransactionContext();
     const [selected, setSelected] = useState('incomming');
     const {transactionCategories} = useTransactionCategoriesList();
+    const {tagsQuery} = useTags();
+
+    console.log(tagsQuery);
 
     const router = useRouter()
     const handleOpen = () => setOpen(true);
@@ -67,7 +72,10 @@ export function TransactionRegisterModal(props: TransactionRegisterModalPropsInt
 
                         <ControlledDatePicker id={'date'} label={"Data"} defaultValue={new Date()}
                                               slotProps={{textField: {fullWidth: true}}} sx={{marginTop: 3}}/>
-
+                        <ControlledAutoCompleteMultiple id={'tags'} data={tagsQuery.data || []}
+                                                        addTextDescription={'Adicione novas tags!'}
+                                                        addTextTitle={'Adicionar tag'} titleKey={'name'}
+                                                        placeHolder={'Adicionar tag'}/>
                         <ControlledSubmitButton id={'transaction-register-submit'} variant="contained"
                                                 color="success"
                                                 sx={{width: '100%', marginTop: 3, height: 45}}
