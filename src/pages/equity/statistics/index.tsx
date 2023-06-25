@@ -6,6 +6,8 @@ import {BigNumberEquityCard} from "../../../components/EquityDistributionCard";
 import {useBigNumberEquityDistribution} from "../../../hooks/queries/useBigNumberEquityDistribution";
 import {useBigNumberEquityEvolution} from "../../../hooks/queries/useBigNumberEquityEvolution";
 import {EquityEvolutionCard} from "../../../components/EquityEvolutionCard";
+import {BarChart} from "../../../BarChart";
+import {useTotalByTag} from "../../../hooks/queries/statistics/useTotalByTag";
 
 
 export default function DashboardRoute() {
@@ -19,8 +21,7 @@ export default function DashboardRoute() {
 export function Home() {
     const {equityDistributionQuery} = useBigNumberEquityDistribution();
     const {equityEvolutionQuery} = useBigNumberEquityEvolution();
-
-    console.log(equityEvolutionQuery)
+    const {transactionStatisticsTotalQuery, transactionTagData} = useTotalByTag();
 
     return (
         <Core>
@@ -33,16 +34,14 @@ export function Home() {
                     <EquityEvolutionCard data={equityEvolutionQuery.data} isLoading={equityEvolutionQuery.isLoading}/>
                 </Grid>
             </Grid>
-            {/*<Grid container spacing={2}>*/}
-            {/*        <BarChart*/}
-            {/*            title={'Categorias - Entrada'}*/}
-            {/*            labels={['Janeiro', 'Fevereiro', 'Março', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']}*/}
-            {/*            series={[100000000, 15000, 20000, 25000, 30000, 30000, 35000, 40000, 45000, 50000, 55000]}  isLoading={false}/>*/}
-            {/*        <BarChart*/}
-            {/*            title={'Categorias - Saida'}*/}
-            {/*            labels={['Janeiro', 'Fevereiro', 'Março', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']}*/}
-            {/*            series={[10000, 15000, 20000, 25000, 30000, 30000, 35000, 40000, 45000, 50000, 55000]}  isLoading={false} colors={['green']}/>*/}
-            {/*</Grid>*/}
+            <Grid container spacing={2}>
+                <BarChart
+                    title={'Gastos por etiqueta'}
+                    labels={transactionTagData.labels}
+                    series={transactionTagData.series}
+                    colors={transactionTagData.colors}
+                    isLoading={false}/>
+            </Grid>
 
 
         </Core>

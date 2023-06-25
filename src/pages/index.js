@@ -1,13 +1,17 @@
 import Core from "../components/templates/Dashboard";
 import {BigNumberCard} from "../components/BigNumberCard";
 import Grid from "@mui/material/Grid";
-import React from "react";
+import React, {useState} from "react";
 import {BigNumberCategoriesCard} from "../components/BigNumberCategoriesCard";
 import {BigNumberExpensesCard} from "../components/BigNumberExpensesCard";
 import {DashboardProvider, useDashboardContext} from "../providers/DashboardProvider";
 import {useTheme} from "@mui/material/styles";
 import {IoMdTrendingDown, IoMdTrendingUp} from "react-icons/io";
 import {FcLineChart} from "react-icons/fc";
+import {useTotalByTag} from "../hooks/queries/statistics/useTotalByTag";
+import {BarChart} from "../BarChart";
+import {TransactionTypeEnum} from "../../libs/stralom-financial-core/modules/transactions/enums/TransactionTypeEnum";
+import {endOfMonth, startOfMonth} from "date-fns";
 
 
 export default function DashboardRoute() {
@@ -19,8 +23,17 @@ export default function DashboardRoute() {
 }
 
 export function Home() {
+    const [startDate, setStartDate] = useState(startOfMonth(new Date()));
+    const [endDate, setEndDate] = useState(endOfMonth(new Date()));
     const theme = useTheme();
     const {cashFlowQuery, cashFlowCategoryExpenseQuery, cashFlowByDayCompleteQuery} = useDashboardContext()
+    const {transactionStatisticsTotalQuery, transactionTagData} = useTotalByTag({
+        start: startDate,
+        end: endDate,
+        type: TransactionTypeEnum.outComing
+    });
+
+
     return (
         <Core>
             <Grid container spacing={2}>
@@ -53,6 +66,14 @@ export function Home() {
                 </Grid>
             </Grid>
 
+            <Grid container spacing={2}>
+                <BarChart
+                    title={'Gastos por etiqueta'}
+                    labels={transactionTagData.labels}
+                    series={transactionTagData.series}
+                    colors={transactionTagData.colors}
+                    isLoading={false}/>
+            </Grid>
 
         </Core>
     )
