@@ -50,7 +50,7 @@ export function BarChart(props: MultiChartPropsInterface) {
                 },
                 colors: props.colors,
                 dataLabels: {
-                    enabled: false
+                    enabled: true
                 },
                 stroke: {
                     curve: 'smooth'
