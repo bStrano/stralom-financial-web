@@ -20,12 +20,13 @@ jobs:
       uses: docker/build-push-action@v4
       with:
         context: .
-        file: ./Dockerfile-Prod
+        file: ./Dockerfile-Prod-remote
         push: true
         tags: blstrano/stralom-financial-web:latest
         build-args: |
-          SSH_MAIN_PRIVATE_KEY=${{ secrets.SSH_MAIN_PRIVATE_KEY }}
-          SSH_CORE_PRIVATE_KEY=${{ secrets.SSH_CORE_PRIVATE_KEY }}
+          AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_ACCESS_REGION=${{ secrets.AWS_ACCESS_REGION }}
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
