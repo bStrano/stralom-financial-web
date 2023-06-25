@@ -1,23 +1,22 @@
 import React, {useContext} from 'react';
 
-import {Button} from "@mui/material";
-import {ButtonProps} from "@mui/material/Button/Button";
+import {LoadingButton, LoadingButtonProps} from '@mui/lab';
 import {FormContext} from "../providers/FormProvider";
 
 type IControlledSubmitButtonProps = {
     onSubmit: (data: any) => void
-} & ButtonProps;
+} & LoadingButtonProps;
 
 function ControlledSubmitButton(props: IControlledSubmitButtonProps) {
     const formContext = useContext(FormContext);
     return (
-        <Button {...props} onClick={(event) => {
+        <LoadingButton {...props} onClick={(event) => {
             formContext.handleSubmit((data) => {
                 props.onSubmit(data);
             }, (err) => console.warn("Error", err))();
         }}>
             Salvar
-        </Button>
+        </LoadingButton>
     );
 }
 
