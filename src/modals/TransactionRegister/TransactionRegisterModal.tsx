@@ -85,7 +85,10 @@ export function TransactionRegisterModal(props: TransactionRegisterModalPropsInt
                         }}
                                                         ref={tagAutoCompleteRef}
                         />
-                        <ControlledSubmitButton id={'transaction-register-submit'} variant="contained"
+
+                        <ControlledSubmitButton loading={transactionContext.saveMutation.isLoading}
+                                                disabled={transactionContext.saveMutation.isLoading}
+                                                id={'transaction-register-submit'} variant="contained"
                                                 color="success"
                                                 sx={{width: '100%', marginTop: 3, height: 45}}
                                                 onSubmit={async (data) => {

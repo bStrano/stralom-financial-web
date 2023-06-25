@@ -1,5 +1,5 @@
 {
-  "version": "0.3.0",
+  "version": "v0.3.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -13,6 +13,7 @@
     "@fontsource/roboto": "^4.5.8",
     "@hookform/resolvers": "^2.9.10",
     "@mui/icons-material": "^5.10.16",
+    "@mui/lab": "^5.0.0-alpha.134",
     "@mui/material": "^5.10.17",
     "@mui/x-data-grid": "^5.17.14",
     "@mui/x-date-pickers": "^6.1.0",

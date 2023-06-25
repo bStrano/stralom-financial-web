@@ -39,7 +39,7 @@ function TransactionProvider(props: ITransactionProviderProps) {
     const add = useCallback(async (transaction: TransactionRegisterDTO) => {
         await saveMutation.mutateAsync(transaction)
         queryClient.invalidateQueries([keys.findAll]).then(() => console.debug("Query de transações invalidada"))
-        if (transaction.tags.some(item => typeof item === "string")) {
+        if (transaction.tags.some(item => typeof item === "string" || !item.id)) {
             queryClient.invalidateQueries([TagAPI.keys.findAll]).then(() => console.debug("Query de tags invalidada"))
         }
     }, [transactions])
