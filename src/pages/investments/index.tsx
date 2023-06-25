@@ -47,19 +47,23 @@ const headCells = [
         label: "Rentabilidade"
     },
     {
-        id: 6,
+        id: 7,
+        label: "Rentabilidade (Mês)"
+    },
+    {
+        id: 8,
         label: "Iniciado em"
     },
     {
-        id: 6,
+        id: 9,
         label: "Resgatado em"
     },
     {
-        id: 7,
+        id: 10,
         label: "Status"
     },
     {
-        id: 7,
+        id: 11,
         label: "Ações"
     }
 ]
@@ -155,6 +159,7 @@ function InvestmentScreenContent(props: InvestmentScreenPropsInterface) {
                             })}
                         </TableCell>
                         <TableCell align="left">{formatPercentage(row.rentability)}</TableCell>
+                        <TableCell align="left">{formatPercentage(row.rentabilityMonth)}</TableCell>
                         <TableCell align="left">{format(new Date(row.startDate), 'dd/MM/yyyy')}</TableCell>
                         <TableCell
                             align="left">{row.redemptionDate && format(new Date(row.redemptionDate), 'dd/MM/yyyy')}</TableCell>
