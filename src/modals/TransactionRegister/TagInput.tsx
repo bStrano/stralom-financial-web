@@ -1,8 +1,8 @@
 import * as React from 'react';
-import {useContext} from 'react';
+import {forwardRef, useContext, useImperativeHandle} from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-import {Chip} from '@mui/material';
+import {Chip, createFilterOptions} from '@mui/material';
 import {useController} from "react-hook-form";
 import {FormContext} from "../../providers/FormProvider";
 
@@ -14,11 +14,29 @@ export interface AutoCompleteDialogProps {
     titleKey: string;
     data: Record<string, any>[];
     id: string;
+    hasDialog?: boolean;
+
+    openDialog?(text: string): void;
 }
 
-export default function ControlledAutoCompleteMultiple(props: AutoCompleteDialogProps) {
+const filter = createFilterOptions();
+
+export const ControlledAutoCompleteMultiple = forwardRef(function ControlledAutoCompleteMultiple(props: AutoCompleteDialogProps, ref) {
     const formContext = useContext(FormContext);
+
+
     const {field, fieldState} = useController({control: formContext.control, name: props.id, defaultValue: []})
+
+
+    useImperativeHandle(ref, () => {
+        return {
+            addValue(value: any) {
+                const values = formContext.getValues(props.id);
+                values.push(value);
+                formContext.setValue(props.id, values)
+            }
+        };
+    }, []);
 
     return (
         <React.Fragment>
@@ -28,7 +46,19 @@ export default function ControlledAutoCompleteMultiple(props: AutoCompleteDialog
                 id="tags-filled"
                 options={props.data}
                 value={field.value}
-                getOptionLabel={(option) => typeof option === "string" ? option : option[props.titleKey]}
+                selectOnFocus
+                clearOnBlur
+                handleHomeEndKeys
+                getOptionLabel={(option) => {
+                    // e.g value selected with enter, right from the input
+                    if (typeof option === 'string') {
+                        return option;
+                    }
+                    if (option.inputValue) {
+                        return option.title;
+                    }
+                    return option[props.titleKey];
+                }}
                 freeSolo
                 renderTags={(value: readonly string[], getTagProps) =>
                     value.map((option: string | Record<string, any>, index: number) => (
@@ -40,7 +70,31 @@ export default function ControlledAutoCompleteMultiple(props: AutoCompleteDialog
                     ))
                 }
                 onChange={(event, newValue) => {
-                    field.onChange(newValue);
+                    const value = newValue[newValue.length - 1]
+                    if (!props.hasDialog) {
+                        field.onChange(newValue);
+                    }
+
+                    if (typeof value === 'string') {
+                        // timeout to avoid instant validation of the dialog's form.
+                        setTimeout(() => {
+                            props.openDialog(value);
+                        });
+                    } else if (value && value.inputValue) {
+                        props.openDialog(value.inputValue)
+                    } else {
+                        field.onChange(newValue);
+                    }
+                }}
+                filterOptions={(options, params) => {
+                    const filtered = filter(options, params);
+                    if (params.inputValue !== '') {
+                        filtered.push({
+                            inputValue: params.inputValue,
+                            title: `Adicionar "${params.inputValue}"`,
+                        });
+                    }
+                    return filtered;
                 }}
                 onInputChange={(event, newValue) => {
                     console.log(newValue);
@@ -55,4 +109,4 @@ export default function ControlledAutoCompleteMultiple(props: AutoCompleteDialog
             />
         </React.Fragment>
     );
-}
+});

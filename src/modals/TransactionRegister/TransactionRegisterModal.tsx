@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {Card, CardContent, CardHeader, Modal} from "@mui/material";
 import {FormProvider} from "../../providers/FormProvider";
 import {TransactionRegisterDTO} from "../../validators/TransactionRegisterDTO";
@@ -12,8 +12,9 @@ import {CloseIcon} from "../../theme/overrides/CustomIcons";
 import {CategorySelector} from "../../components/CategorySelector/CategorySelector";
 import {useTransactionCategoriesList} from "../../hooks/queries/useTransactionCategoriesList";
 import ControlledDatePicker from "../../components/ControlledDatePicker";
-import ControlledAutoCompleteMultiple from './TagInput';
 import {useTags} from "../../hooks/queries/tags/useTags";
+import {ColorPickerDialog} from "../ColorPicker/ColorPickerDialog";
+import {ControlledAutoCompleteMultiple} from './TagInput';
 
 interface TransactionRegisterModalPropsInterface {
     open: boolean;
@@ -21,7 +22,11 @@ interface TransactionRegisterModalPropsInterface {
 }
 
 export function TransactionRegisterModal(props: TransactionRegisterModalPropsInterface) {
+    const tagAutoCompleteRef = useRef(null);
+
     const {open, setOpen} = props;
+    const [newTagName, setNewTagName] = useState('')
+    const [tagColorPickerDialogVisibility, setTagColorPickerDialogVisibility] = useState(false);
     const transactionContext = useTransactionContext();
     const [selected, setSelected] = useState('incomming');
     const {transactionCategories} = useTransactionCategoriesList();
@@ -30,14 +35,12 @@ export function TransactionRegisterModal(props: TransactionRegisterModalPropsInt
     console.log(tagsQuery);
 
     const router = useRouter()
-    const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
     return (
 
         <Modal
             open={open}
-            onClose={handleClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
@@ -75,7 +78,13 @@ export function TransactionRegisterModal(props: TransactionRegisterModalPropsInt
                         <ControlledAutoCompleteMultiple id={'tags'} data={tagsQuery.data || []}
                                                         addTextDescription={'Adicione novas tags!'}
                                                         addTextTitle={'Adicionar tag'} titleKey={'name'}
-                                                        placeHolder={'Adicionar tag'}/>
+                                                        placeHolder={'Adicionar tag'}
+                                                        hasDialog={true} openDialog={(tagName: string) => {
+                            setTagColorPickerDialogVisibility(true);
+                            setNewTagName(tagName)
+                        }}
+                                                        ref={tagAutoCompleteRef}
+                        />
                         <ControlledSubmitButton id={'transaction-register-submit'} variant="contained"
                                                 color="success"
                                                 sx={{width: '100%', marginTop: 3, height: 45}}
@@ -87,6 +96,10 @@ export function TransactionRegisterModal(props: TransactionRegisterModalPropsInt
                         </ControlledSubmitButton>
                     </CardContent>
                 </Card>
+                <ColorPickerDialog title={"Selecione a cor da etiqueta"} open={tagColorPickerDialogVisibility}
+                                   setOpen={setTagColorPickerDialogVisibility} onSuccess={(color) => {
+                    tagAutoCompleteRef.current.addValue({name: newTagName, color})
+                }}/>
 
             </FormProvider>
 
