@@ -129,21 +129,21 @@ function InvestmentScreenContent(props: InvestmentScreenPropsInterface) {
                         <TableCell
                             id={"name"}
                             scope="row"
-                            padding="2"
+                            padding="normal"
                         >
                             {row.name}
                         </TableCell>
                         <TableCell
                             id={"type"}
                             scope="row"
-                            padding="2"
+                            padding="normal"
                         >
                             {row.type?.name}
                         </TableCell>
                         <TableCell
                             id={"appliedAmount"}
                             scope="row"
-                            padding="2"
+                            padding="normal"
                         >
                             {formatCurrency(row.appliedAmount, {
                                 minimumFractionDigits: 2,
@@ -153,7 +153,7 @@ function InvestmentScreenContent(props: InvestmentScreenPropsInterface) {
                         <TableCell
                             id={"currentAmount"}
                             align="left"
-                            padding="2"
+                            padding="normal"
 
                         >
                             {formatCurrency(row.currentAmount, {

@@ -1,11 +1,13 @@
 import React, {useContext} from 'react';
 
-import {LoadingButton, LoadingButtonProps} from '@mui/lab';
+import {LoadingButton} from '@mui/lab';
 import {FormContext} from "../providers/FormProvider";
+import {ButtonProps} from "@mui/material";
 
 type IControlledSubmitButtonProps = {
-    onSubmit: (data: any) => void
-} & LoadingButtonProps;
+    onSubmit: (data: any) => void;
+    loading?: boolean
+} & ButtonProps;
 
 function ControlledSubmitButton(props: IControlledSubmitButtonProps) {
     const formContext = useContext(FormContext);
