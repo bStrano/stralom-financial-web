@@ -6,11 +6,20 @@ import {TransactionInterface} from "@core/modules/transactions/entities/Transact
 
 const keys = {
     register: "Transaction_register",
+    update: "Transaction_update",
     delete: "Transaction_delete",
     findAll: "Transaction_findAll"
 }
 
 async function register(transaction: TransactionRegisterDTO) {
+    const {data} = await axiosDefault.post<TransactionCategoryInterface[]>('transaction', {
+        ...transaction,
+        value: transaction.value_raw
+    })
+    return data;
+}
+
+async function updateItem(transaction: TransactionRegisterDTO) {
     const {data} = await axiosDefault.post<TransactionCategoryInterface[]>('transaction', {
         ...transaction,
         value: transaction.value_raw
@@ -28,4 +37,4 @@ async function findAll() {
     return data;
 }
 
-export {register, findAll, deleteAll, keys}
+export {register, findAll, deleteAll, updateItem, keys}

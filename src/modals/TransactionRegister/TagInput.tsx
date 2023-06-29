@@ -27,7 +27,6 @@ export const ControlledAutoCompleteMultiple = forwardRef(function ControlledAuto
 
     const {field, fieldState} = useController({control: formContext.control, name: props.id, defaultValue: []})
 
-
     useImperativeHandle(ref, () => {
         return {
             addValue(value: any) {
