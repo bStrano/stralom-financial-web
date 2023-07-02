@@ -7,6 +7,7 @@ import {CreateInvestmentDTOInterface} from "@core/modules/investments/dtos/Creat
 const keys = {
     findAll: "Investment_findAll",
     create: "Investment_create",
+    update: "Investment_update",
     remove: "Investment_remove"
 }
 
@@ -25,9 +26,19 @@ async function create(createInvestmentDto: InvestmentRegisterDTO) {
     return data;
 }
 
+async function updateItem({investment, id}: { investment: InvestmentRegisterDTO, id: string }) {
+    const body: CreateInvestmentDTOInterface = {
+        ...investment,
+        currentAmount: investment.currentAmount_raw,
+        appliedAmount: investment.appliedAmount_raw
+    };
+    const {data} = await axiosDefault.patch<InvestmentInterface>(`investments/${id}`, body);
+    return data;
+}
+
 async function remove(id: string) {
     console.log("Remove ID");
     await axiosDefault.delete(`investments/${id}`);
 }
 
-export {findAll, create, remove, keys}
+export {findAll, create, remove, keys, updateItem}
