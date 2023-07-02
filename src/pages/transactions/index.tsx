@@ -67,8 +67,8 @@ export default function TransactionScreen(props: TransactionScreenPropsInterface
         setRegisterModalVisibility(true);
     }, [])
 
-    const onDelete = useCallback(async (ids: string[]) => {
-        await transactionContext.onDelete(ids)
+    const onDelete = useCallback(async (id: string) => {
+        await transactionContext.onDelete(id)
     }, [])
 
     const onUpdate = useCallback(async (item: TransactionInterface) => {
@@ -99,7 +99,7 @@ export default function TransactionScreen(props: TransactionScreenPropsInterface
             <EnhancedTable
                 disabled
                 toolbarProps={{title: "Transações", buttonLabel: "Nova transação", buttonOnPress: onRegister}}
-                onDelete={(ids) => onDelete(ids as string[])}
+                onDelete={(id) => onDelete(id as string)}
                 rows={transactionContext.transactions || []} headCells={headCells}
                 renderRows={(row: TransactionInterface) => (
                     <>
@@ -130,7 +130,7 @@ export default function TransactionScreen(props: TransactionScreenPropsInterface
                         </TableCell>
                         <TableCell align="left">{format(new Date(row.date), 'dd/MM/yyyy')}</TableCell>
                         <TableCell align={'left'}>
-                            <IconButton color={"error"} size={'small'} onClick={() => onDelete([row.id])}>
+                            <IconButton color={"error"} size={'small'} onClick={() => onDelete(row.id)}>
                                 <FaTrashAlt/>
                             </IconButton>
                             <IconButton color={"success"} size={'medium'} onClick={() => onUpdate(row)}>

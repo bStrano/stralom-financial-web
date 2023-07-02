@@ -41,7 +41,7 @@ export const FormProvider = ({children, validationSchema, defaultValues}: IFormP
     const {control, reset, handleSubmit, setValue, getValues} = useForm({resolver, defaultValues},);
 
     return (
-        <FormContext.Provider value={{control, handleSubmit, setValue, getValues, reset}}>
+        <FormContext.Provider value={{control, handleSubmit, reset, setValue, getValues}}>
             {children}
         </FormContext.Provider>
     )

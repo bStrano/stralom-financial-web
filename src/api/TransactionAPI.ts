@@ -19,16 +19,16 @@ async function register(transaction: TransactionRegisterDTO) {
     return data;
 }
 
-async function updateItem(transaction: TransactionRegisterDTO) {
-    const {data} = await axiosDefault.post<TransactionCategoryInterface[]>('transaction', {
+async function updateItem({id, transaction}: { id: string, transaction: TransactionRegisterDTO }) {
+    const {data} = await axiosDefault.patch<TransactionCategoryInterface[]>(`transaction/${id}`, {
         ...transaction,
         value: transaction.value_raw
     })
     return data;
 }
 
-async function deleteAll(ids: string[]) {
-    const {data} = await axiosDefault.delete<TransactionCategoryInterface[]>('transaction', {params: {ids}})
+async function deleteById(id: string) {
+    const {data} = await axiosDefault.delete<TransactionCategoryInterface[]>(`transaction/${id}`)
     return data;
 }
 
@@ -37,4 +37,4 @@ async function findAll() {
     return data;
 }
 
-export {register, findAll, deleteAll, updateItem, keys}
+export {register, findAll, deleteById, updateItem, keys}

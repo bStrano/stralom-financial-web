@@ -2,7 +2,7 @@ import React, {useCallback, useContext, useState} from 'react';
 import {TransactionRegisterDTO} from "../validators/TransactionRegisterDTO";
 import {useTransactions} from "../hooks/queries/useTransactions";
 import {useMutation, UseMutationResult, useQueryClient, UseQueryResult} from "react-query";
-import {deleteAll, keys, register, updateItem} from "../api/TransactionAPI";
+import {deleteById, keys, register, updateItem} from "../api/TransactionAPI";
 import {TransactionInterface} from "@core/modules/transactions/entities/TransactionInterface";
 import {TransactionCategoryInterface} from "@core/modules/transactions/entities/TransactionCategoryInterface";
 import {TagAPI} from "../api/TagAPI";
@@ -16,11 +16,15 @@ interface ITransactionContext {
     transactions: TransactionInterface[]
     setTransactions: React.Dispatch<React.SetStateAction<TransactionRegisterDTO[]>>
     add: (transaction: TransactionRegisterDTO) => void
-    update: (transaction: TransactionRegisterDTO) => void
+    update: (id: string, transaction: TransactionRegisterDTO) => void
 
-    onDelete(ids: string[]): Promise<void>
+    onDelete(id: string): Promise<void>
 
     saveMutation: UseMutationResult<TransactionCategoryInterface[], unknown, TransactionRegisterDTO, unknown>
+    updateMutation: UseMutationResult<TransactionCategoryInterface[], unknown, {
+        id: string,
+        transaction: TransactionRegisterDTO
+    }, unknown>
     transactionsQuery: UseQueryResult<TransactionInterface[], unknown>
 }
 
@@ -35,7 +39,7 @@ function TransactionProvider(props: ITransactionProviderProps) {
     const [transactions, setTransactions] = useState<TransactionRegisterDTO[]>([]);
     const saveMutation = useMutation(keys.register, register);
     const updateMutation = useMutation(keys.update, updateItem);
-    const deleteMutation = useMutation(keys.delete, deleteAll);
+    const deleteMutation = useMutation(keys.delete, deleteById);
     const queryClient = useQueryClient()
 
     const invalidateQueryOnSave = useCallback((transaction: TransactionRegisterDTO) => {
@@ -50,19 +54,22 @@ function TransactionProvider(props: ITransactionProviderProps) {
         invalidateQueryOnSave(transaction)
     }, [transactions, invalidateQueryOnSave])
 
-    const update = useCallback(async (transaction: TransactionRegisterDTO) => {
-        await updateMutation.mutateAsync(transaction)
+    const update = useCallback(async (id: string, transaction: TransactionRegisterDTO) => {
+        await updateMutation.mutateAsync({id, transaction})
         invalidateQueryOnSave(transaction)
     }, [transactions, invalidateQueryOnSave])
 
 
-    const onDelete = useCallback(async (ids: string[]) => {
-        await deleteMutation.mutateAsync(ids);
-        queryClient.setQueryData(
-            [keys.findAll],
-            (oldData: TransactionInterface[]) => {
-                return oldData.filter(item => !ids.some(itemId => item.id === itemId));
-            })
+    const onDelete = useCallback(async (id: string) => {
+        await deleteMutation.mutateAsync(id);
+        queryClient.invalidateQueries([keys.findAll]);
+        // queryClient.setQueryData(
+        //     [keys.findAll],
+        //     (oldData: TransactionInterface[]) => {
+        //         return oldData.filter(item => {
+        //             return item.id !== id && item.referenceTransactionId !== id;
+        //         })
+        //     })
     }, [])
 
     return (
@@ -72,6 +79,7 @@ function TransactionProvider(props: ITransactionProviderProps) {
                 setTransactions,
                 add,
                 saveMutation,
+                updateMutation,
                 transactionsQuery,
                 onDelete,
                 update

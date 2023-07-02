@@ -104,13 +104,15 @@ function TransactionRegisterModalContent(props: TransactionRegisterModalPropsInt
                             InputLabelProps={{
                                 shrink: true,
                             }}
+                            disabled={props.selectedItem != null}
                         />
                         <ControlledTextField id="value" label="Valor" variant="outlined" margin="normal"
                                              mask={{type: 'currency'}}
                                              fullWidth={true} type={'text'} required/>
 
                         <ControlledDatePicker id={'date'} label={"Data"} defaultValue={new Date()}
-                                              slotProps={{textField: {fullWidth: true}}} sx={{marginTop: 3}}/>
+                                              slotProps={{textField: {fullWidth: true}}} sx={{marginTop: 3}}
+                                              disabled={props.selectedItem && props.selectedItem.instalments > 1}/>
                         <ControlledAutoCompleteMultiple id={'tags'} data={tagsQuery.data || []}
                                                         addTextDescription={'Adicione novas tags!'}
                                                         addTextTitle={'Adicionar tag'} titleKey={'name'}
@@ -122,17 +124,18 @@ function TransactionRegisterModalContent(props: TransactionRegisterModalPropsInt
                                                         ref={tagAutoCompleteRef}
                         />
 
-                        <ControlledSubmitButton loading={transactionContext.saveMutation.isLoading}
-                                                disabled={transactionContext.saveMutation.isLoading}
-                                                id={'transaction-register-submit'} variant="contained"
-                                                color="success"
-                                                label={props.selectedItem ? 'Editar' : 'Salvar'}
-                                                sx={{width: '100%', marginTop: 3, height: 45}}
-                                                onSubmit={async (data) => {
-                                                    if (props.selectedItem) {
-                                                        await transactionContext.update(data);
-                                                    } else {
-                                                        await transactionContext.add(data)
+                        <ControlledSubmitButton
+                            loading={transactionContext.saveMutation.isLoading || transactionContext.updateMutation.isLoading}
+                            disabled={transactionContext.saveMutation.isLoading}
+                            id={'transaction-register-submit'} variant="contained"
+                            color="success"
+                            label={props.selectedItem ? 'Editar' : 'Salvar'}
+                            sx={{width: '100%', marginTop: 3, height: 45}}
+                            onSubmit={async (data) => {
+                                if (props.selectedItem) {
+                                    await transactionContext.update(props.selectedItem.id, data);
+                                } else {
+                                    await transactionContext.add(data)
                                                     }
                                                     setOpen(false);
                                                 }}>

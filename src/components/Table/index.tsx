@@ -49,7 +49,6 @@ export default function EnhancedTable(props: EnchantedTableProps) {
     };
 
     const handleClick = (event, row) => {
-        console.log(row);
         if (props.disabled) return;
 
         if (props.onClick) {
