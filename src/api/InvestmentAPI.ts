@@ -2,11 +2,13 @@ import {axiosDefault} from "../configs/axios.config";
 import {InvestmentInterface} from "@core/modules/investments/entities/InvestmentInterface";
 import {InvestmentRegisterDTO} from "../validators/InvestmentRegisterDTO";
 import {CreateInvestmentDTOInterface} from "@core/modules/investments/dtos/CreateInvestmentDTOInterface";
+import {RedeemInvestmentDTOInterface} from "@core/modules/investments/dtos/RedeemInvestmentDTOInterface";
 
 
 const keys = {
     findAll: "Investment_findAll",
     create: "Investment_create",
+    redeem: "Investment_redeem",
     update: "Investment_update",
     remove: "Investment_remove"
 }
@@ -36,9 +38,14 @@ async function updateItem({investment, id}: { investment: InvestmentRegisterDTO,
     return data;
 }
 
+async function redeem({id, redeem}: { id: string, redeem: RedeemInvestmentDTOInterface }) {
+    const {data} = await axiosDefault.patch<InvestmentInterface>(`investments/redeem/${id}`, redeem);
+    return data;
+}
+
 async function remove(id: string) {
     console.log("Remove ID");
     await axiosDefault.delete(`investments/${id}`);
 }
 
-export {findAll, create, remove, keys, updateItem}
+export {findAll, create, remove, keys, updateItem, redeem}

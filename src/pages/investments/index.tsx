@@ -17,6 +17,7 @@ import {RiMoneyDollarCircleFill} from "react-icons/ri";
 import {FaTrashAlt} from "react-icons/fa";
 import {InvestmentRegisterModal} from "../../modals/InvestmentRegister/InvestmentRegisterModal";
 import {AiFillEdit} from "react-icons/ai";
+import {InvestmentRedeemModal} from "../../modals/RedeemInvestmentModal";
 
 interface InvestmentScreenPropsInterface {
 
@@ -81,7 +82,13 @@ function InvestmentScreenContent(props: InvestmentScreenPropsInterface) {
     const theme = useTheme();
     const investmentContext = useInvestmentContext();
     const [registerModalVisibility, setRegisterModalVisibility] = useState(false);
+    const [redeemModalVisibility, setRedeemModalVisibility] = useState(false);
     const [selectedItem, setSelectedItem] = useState<InvestmentInterface>();
+
+    const onRedeem = useCallback(async (item: InvestmentInterface) => {
+        setSelectedItem(item)
+        setRedeemModalVisibility(true)
+    }, [])
 
     const onUpdate = useCallback(async (item: InvestmentInterface) => {
         setSelectedItem(item)
@@ -120,6 +127,8 @@ function InvestmentScreenContent(props: InvestmentScreenPropsInterface) {
         </Breadcrumbs>}>
             <InvestmentRegisterModal open={registerModalVisibility} setOpen={setRegisterModalVisibility}
                                      selectedItem={selectedItem} onClose={() => setSelectedItem(null)}/>
+            <InvestmentRedeemModal open={redeemModalVisibility} setOpen={setRedeemModalVisibility}
+                                   selectedItem={selectedItem} onClose={() => setSelectedItem(null)}/>
             <EnhancedTable
                 disabled={true}
                 toolbarProps={{title: "Investimentos", buttonLabel: "Novo Investimento", buttonOnPress: onRegister}}
@@ -175,8 +184,8 @@ function InvestmentScreenContent(props: InvestmentScreenPropsInterface) {
                         <TableCell
                             align="left">{row.redemptionDate && format(new Date(row.redemptionDate), 'dd/MM/yyyy')}</TableCell>
                         <TableCell align="left">{getStatus(row.status).name}</TableCell>
-                        <TableCell align="left">
-                            <IconButton color={"success"}>
+                        <TableCell align="center">
+                            <IconButton color={"success"} onClick={() => onRedeem(row)}>
                                 <RiMoneyDollarCircleFill/>
                             </IconButton>
                             <IconButton color={"success"} size={'medium'} onClick={() => onUpdate(row)}>
