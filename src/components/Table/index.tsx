@@ -20,6 +20,7 @@ interface EnchantedTableProps {
 
     onDelete(ids: string[] | string): Promise<void>
 
+    onClick?(row: any): void
     toolbarProps: EnchantedTableToolbarProps;
     disabled?: boolean;
 }
@@ -47,13 +48,17 @@ export default function EnhancedTable(props: EnchantedTableProps) {
         setSelected([]);
     };
 
-    const handleClick = (event, name) => {
+    const handleClick = (event, row) => {
         if (props.disabled) return;
-        const selectedIndex = selected.indexOf(name);
+
+        if (props.onClick) {
+            return props.onClick(row)
+        }
+        const selectedIndex = selected.indexOf(row.id);
         let newSelected = [];
 
         if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, name);
+            newSelected = newSelected.concat(selected, row.id);
         } else if (selectedIndex === 0) {
             newSelected = newSelected.concat(selected.slice(1));
         } else if (selectedIndex === selected.length - 1) {
@@ -121,7 +126,7 @@ export default function EnhancedTable(props: EnchantedTableProps) {
                                         return (
                                             <TableRow
                                                 hover
-                                                onClick={(event) => handleClick(event, id)}
+                                                onClick={(event) => handleClick(event, row)}
                                                 role="checkbox"
                                                 aria-checked={isItemSelected}
                                                 tabIndex={-1}

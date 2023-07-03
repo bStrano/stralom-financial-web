@@ -6,7 +6,8 @@ import {ButtonProps} from "@mui/material";
 
 type IControlledSubmitButtonProps = {
     onSubmit: (data: any) => void;
-    loading?: boolean
+    loading?: boolean;
+    label?: string
 } & ButtonProps;
 
 function ControlledSubmitButton(props: IControlledSubmitButtonProps) {
@@ -17,7 +18,7 @@ function ControlledSubmitButton(props: IControlledSubmitButtonProps) {
                 props.onSubmit(data);
             }, (err) => console.warn("Error", err))();
         }}>
-            Salvar
+            {props.label || 'Salvar'}
         </LoadingButton>
     );
 }

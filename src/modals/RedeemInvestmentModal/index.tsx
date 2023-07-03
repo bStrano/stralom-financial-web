@@ -6,7 +6,6 @@ import ControlledSubmitButton from "../../components/ControlledSubmitButton";
 import IconButton from "@mui/material/IconButton";
 import {CloseIcon} from "../../theme/overrides/CustomIcons";
 import ControlledDatePicker from "../../components/ControlledDatePicker";
-import {InvestmentTypeSelector} from "../../components/InvestmentTypeSelector/InvestmentTypeSelector";
 import {InvestmentRegisterDTO} from "../../validators/InvestmentRegisterDTO";
 import {useInvestmentContext} from "../../providers/InvestmentProvider";
 import {InvestmentInterface} from "@core/modules/investments/entities/InvestmentInterface";
@@ -14,26 +13,25 @@ import {InvestmentInterface} from "@core/modules/investments/entities/Investment
 interface InvestmentRegisterModalPropsInterface {
     open: boolean;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    selectedItem?: InvestmentInterface
+    selectedItem: InvestmentInterface
 
-    onClose?(): void;
+    onClose(): void;
 }
 
 const defaultValues = {}
 
-export function InvestmentRegisterModal(props: InvestmentRegisterModalPropsInterface) {
+export function InvestmentRedeemModal(props: InvestmentRegisterModalPropsInterface) {
     return (
         <FormProvider validationSchema={InvestmentRegisterDTO}>
-            <InvestmentRegisterModalContent {...props} />
+            <InvestmentRedeemModalContent {...props} />
         </FormProvider>
     )
 }
 
-function InvestmentRegisterModalContent(props: InvestmentRegisterModalPropsInterface) {
+function InvestmentRedeemModalContent(props: InvestmentRegisterModalPropsInterface) {
     const {open, setOpen} = props;
     const investmentContext = useInvestmentContext();
     const formContext = useContext(FormContext);
-    const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
     useEffect(() => {
@@ -68,7 +66,7 @@ function InvestmentRegisterModalContent(props: InvestmentRegisterModalPropsInter
             aria-describedby="modal-modal-description"
         >
             <Card sx={{minWidth: 400, ...style}}>
-                <CardHeader title="Novo Investimento"
+                <CardHeader title="Resgatar Investimento"
                             action={
                                 <IconButton aria-label="close" onClick={handleClose}>
                                     <CloseIcon/>
@@ -76,32 +74,29 @@ function InvestmentRegisterModalContent(props: InvestmentRegisterModalPropsInter
                             }
                 />
                 <CardContent>
-                    <ControlledTextField id="name" label="Nome do investimento" variant="outlined"
+                    <ControlledTextField disabled id="name" label="Nome do investimento" variant="outlined"
                                          margin="normal" type={'text'}
-                                         fullWidth={true} required/>
-                    <InvestmentTypeSelector id={'typeId'}/>
-                    <ControlledTextField id="appliedAmount" label="Valor aplicado" variant="outlined"
+                                         fullWidth required/>
+                    <ControlledTextField disabled id="appliedAmount" label="Valor aplicado" variant="outlined"
                                          margin="normal"
                                          mask={{type: 'currency'}}
                                          fullWidth={true} type={'text'} required/>
-                    <ControlledTextField id="currentAmount" label="Valor atual (Opcional)" variant="outlined"
+                    <ControlledTextField id="currentAmount" label="Valor atual" variant="outlined"
                                          margin="normal"
                                          mask={{type: 'currency'}}
                                          fullWidth={true} type={'text'}/>
-                    <ControlledDatePicker id={'startDate'} label={"Data Inicio"} defaultValue={new Date()}
+                    <ControlledDatePicker id={'redeemDate'} label={"Data resgate"} defaultValue={new Date()}
                                           slotProps={{textField: {fullWidth: true}}} sx={{marginTop: 3}}/>
 
-                    <ControlledSubmitButton id={'investment-register-submit'} variant="contained"
+                    <ControlledSubmitButton id={'investment-redeem-submit'} variant="contained"
                                             color="success"
                                             sx={{width: '100%', marginTop: 3, height: 45}}
-                                            label={props.selectedItem ? 'Editar' : 'Salvar'}
+                                            label={'Resgatar'}
                                             onSubmit={async (data) => {
-
-                                                if (props.selectedItem) {
-                                                    await investmentContext.update(props.selectedItem.id, data);
-                                                } else {
-                                                    await investmentContext.add(data)
-                                                }
+                                                await investmentContext.onRedeem(props.selectedItem.id, {
+                                                    redeemDate: data.redeemDate,
+                                                    currentValue: data.currentAmount_raw
+                                                });
                                                 setOpen(false);
                                             }}/>
                 </CardContent>

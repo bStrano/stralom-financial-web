@@ -1,6 +1,7 @@
 import {IsDate, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID, Max} from "class-validator";
 import {Type} from "class-transformer";
 import {TagInterface} from "@core/modules/tags/entities/TagInterface";
+import {TransactionTypeEnum} from "@core/modules/transactions/enums/TransactionTypeEnum";
 
 export class TransactionRegisterDTO {
     @IsUUID()
@@ -18,7 +19,7 @@ export class TransactionRegisterDTO {
     value: string;
     @IsString()
     @IsNotEmpty({message: 'O numero de parcelas é obrigatório'})
-    type: 'incomming' | 'outcomming';
+    type: TransactionTypeEnum;
     @IsNumber()
     @Type(() => Number)
     @Max(24, {message: "O numero máximo de parcelas é 24"})

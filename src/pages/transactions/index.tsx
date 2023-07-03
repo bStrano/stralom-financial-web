@@ -13,6 +13,9 @@ import {IoMdTrendingDown, IoMdTrendingUp} from "react-icons/io";
 import {TransactionInterface} from "@core/modules/transactions/entities/TransactionInterface";
 import {TransactionTypeEnum} from "@core/modules/transactions/enums/TransactionTypeEnum";
 import {formatCurrency} from "../../utils/numbers.utils";
+import IconButton from "@mui/material/IconButton";
+import {FaTrashAlt} from "react-icons/fa";
+import {AiFillEdit} from "react-icons/ai";
 
 interface TransactionScreenPropsInterface {
 
@@ -46,19 +49,31 @@ const headCells = [
     {
         id: 7,
         label: "Data"
-    }]
+    },
+    {
+        id: 8,
+        label: "Ações"
+    }
+
+]
 
 export default function TransactionScreen(props: TransactionScreenPropsInterface) {
     const theme = useTheme();
-    const [open, setOpen] = useState(false);
+    const [registerModalVisibility, setRegisterModalVisibility] = useState(false);
+    const [selectedItem, setSelectedItem] = useState<TransactionInterface>();
     const transactionContext = useTransactionContext();
 
     const onRegister = useCallback(async () => {
-        setOpen(true);
+        setRegisterModalVisibility(true);
     }, [])
 
-    const onDelete = useCallback(async (ids: string[]) => {
-        await transactionContext.onDelete(ids)
+    const onDelete = useCallback(async (id: string) => {
+        await transactionContext.onDelete(id)
+    }, [])
+
+    const onUpdate = useCallback(async (item: TransactionInterface) => {
+        setSelectedItem(item)
+        setRegisterModalVisibility(true)
     }, [])
 
     const getInstallmentValue = useCallback((transaction: TransactionInterface) => {
@@ -82,8 +97,9 @@ export default function TransactionScreen(props: TransactionScreenPropsInterface
             <Typography color="text.primary">Transações</Typography>
         </Breadcrumbs>}>
             <EnhancedTable
+                disabled
                 toolbarProps={{title: "Transações", buttonLabel: "Nova transação", buttonOnPress: onRegister}}
-                onDelete={(ids) => onDelete(ids as string[])}
+                onDelete={(id) => onDelete(id as string)}
                 rows={transactionContext.transactions || []} headCells={headCells}
                 renderRows={(row: TransactionInterface) => (
                     <>
@@ -113,10 +129,19 @@ export default function TransactionScreen(props: TransactionScreenPropsInterface
                             {row.tags.length === 0 ? '-' : row.tags.map(item => item.name).toString()}
                         </TableCell>
                         <TableCell align="left">{format(new Date(row.date), 'dd/MM/yyyy')}</TableCell>
+                        <TableCell align={'left'}>
+                            <IconButton color={"error"} size={'small'} onClick={() => onDelete(row.id)}>
+                                <FaTrashAlt/>
+                            </IconButton>
+                            <IconButton color={"success"} size={'medium'} onClick={() => onUpdate(row)}>
+                                <AiFillEdit/>
+                            </IconButton>
+                        </TableCell>
                     </>
                 )}
             />
-            <TransactionRegisterModal open={open} setOpen={setOpen}/>
+            <TransactionRegisterModal open={registerModalVisibility} setOpen={setRegisterModalVisibility}
+                                      selectedItem={selectedItem} onClose={() => setSelectedItem(null)}/>
         </Core>
     );
 }

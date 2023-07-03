@@ -1,5 +1,14 @@
 import React, {useMemo} from "react";
-import {Control, FieldValues, SubmitErrorHandler, SubmitHandler, useForm, UseFormGetValues} from "react-hook-form";
+import {
+    Control,
+    DefaultValues,
+    FieldValues,
+    KeepStateOptions,
+    SubmitErrorHandler,
+    SubmitHandler,
+    useForm,
+    UseFormGetValues
+} from "react-hook-form";
 import {classValidatorResolver} from "@hookform/resolvers/class-validator";
 import {ClassConstructor} from 'class-transformer';
 
@@ -12,7 +21,7 @@ interface IFormProps {
 interface IFormContext {
     control: Control<FieldValues, any>
     handleSubmit: (onValid: SubmitHandler<FieldValues>, onInvalid?: SubmitErrorHandler<FieldValues>) => (e?: React.BaseSyntheticEvent) => Promise<void>
-
+    reset: (values?: (DefaultValues<FieldValues> | FieldValues), keepStateOptions?: KeepStateOptions) => void
     getValues: UseFormGetValues<FieldValues>
     setValue(name: string, value: any, options?: Partial<{
         shouldValidate: boolean,
@@ -29,10 +38,10 @@ export const FormProvider = ({children, validationSchema, defaultValues}: IFormP
         return classValidatorResolver(validationSchema);
     }, [validationSchema])
 
-    const {control, handleSubmit, setValue, getValues} = useForm({resolver, defaultValues},);
+    const {control, reset, handleSubmit, setValue, getValues} = useForm({resolver, defaultValues},);
 
     return (
-        <FormContext.Provider value={{control, handleSubmit, setValue, getValues}}>
+        <FormContext.Provider value={{control, handleSubmit, reset, setValue, getValues}}>
             {children}
         </FormContext.Provider>
     )
