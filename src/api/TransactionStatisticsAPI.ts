@@ -2,6 +2,7 @@ import {axiosDefault} from "../configs/axios.config";
 import {CashFlowCompiledSummaryInterface} from "@core/modules/statistics/CashFlowCompiledSummaryInterface";
 import {CashFlowCompiledGroupedByCategoryInterface} from "@core/modules/statistics/CashFlowCompiledGroupedByCategory";
 import {CashFlowByDayCompiledInterface} from "@core/modules/statistics/CashFlowByDayCompiledInterface";
+import {FilterOptionsDtoInterface} from "@core/modules/statistics/dtos/FilterOptionsDtoInterface";
 
 
 const keys = {
@@ -12,18 +13,18 @@ const keys = {
 
 const route = 'statistics/cash-flow'
 
-async function getCashFlow() {
-    const {data} = await axiosDefault.get<CashFlowCompiledSummaryInterface>(route)
+async function getCashFlow(optionalParams?: FilterOptionsDtoInterface) {
+    const {data} = await axiosDefault.get<CashFlowCompiledSummaryInterface>(route, {params: optionalParams})
     return data;
 }
 
-async function getCashFlowDayComplete() {
-    const {data} = await axiosDefault.get<CashFlowByDayCompiledInterface>(route + '/day/complete')
+async function getCashFlowDayComplete(optionalParams?: FilterOptionsDtoInterface) {
+    const {data} = await axiosDefault.get<CashFlowByDayCompiledInterface>(route + '/day/complete', {params: optionalParams})
     return data;
 }
 
-async function getCashFlowCategoryExpenses() {
-    const {data} = await axiosDefault.get<CashFlowCompiledGroupedByCategoryInterface[]>(route + '/category/expenses')
+async function getCashFlowCategoryExpenses(optionalParams?: FilterOptionsDtoInterface) {
+    const {data} = await axiosDefault.get<CashFlowCompiledGroupedByCategoryInterface[]>(route + '/category/expenses', {params: optionalParams})
     return data;
 }
 

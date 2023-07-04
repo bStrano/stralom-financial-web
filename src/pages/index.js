@@ -1,7 +1,7 @@
 import Core from "../components/templates/Dashboard";
 import {BigNumberCard} from "../components/BigNumberCard";
 import Grid from "@mui/material/Grid";
-import React, {useState} from "react";
+import React from "react";
 import {BigNumberCategoriesCard} from "../components/BigNumberCategoriesCard";
 import {BigNumberExpensesCard} from "../components/BigNumberExpensesCard";
 import {DashboardProvider, useDashboardContext} from "../providers/DashboardProvider";
@@ -12,24 +12,33 @@ import {useTotalByTag} from "../hooks/queries/statistics/useTotalByTag";
 import {BarChart} from "../BarChart";
 import {TransactionTypeEnum} from "../../libs/stralom-financial-core/modules/transactions/enums/TransactionTypeEnum";
 import {endOfMonth, startOfMonth} from "date-fns";
+import {FilterModal} from "../components/FilterModal";
+import ControlledDatePicker from "../components/ControlledDatePicker";
+import {FormProvider} from "../providers/FormProvider";
+import {FindOptionsFilterDTO} from "../validators/FindOptionsFilterDTO";
 
+const defaultValues = {
+    start: startOfMonth(new Date()),
+    end: endOfMonth(new Date())
+}
 
-export default function DashboardRoute() {
+export default function Dashboard6Route() {
     return (
-        <DashboardProvider>
-            <Home/>
-        </DashboardProvider>
+        <FormProvider defaultValues={defaultValues} validationSchema={FindOptionsFilterDTO}>
+            <DashboardProvider>
+                <Home/>
+            </DashboardProvider>
+        </FormProvider>
     )
 }
 
 export function Home() {
-    const [startDate, setStartDate] = useState(startOfMonth(new Date()));
-    const [endDate, setEndDate] = useState(endOfMonth(new Date()));
     const theme = useTheme();
+    const dashboardContext = useDashboardContext();
     const {cashFlowQuery, cashFlowCategoryExpenseQuery, cashFlowByDayCompleteQuery} = useDashboardContext()
     const {transactionStatisticsTotalQuery, transactionTagData} = useTotalByTag({
-        start: startDate,
-        end: endDate,
+        start: dashboardContext.startDate,
+        end: dashboardContext.endDate,
         type: TransactionTypeEnum.outComing
     });
 
@@ -75,6 +84,23 @@ export function Home() {
                     isLoading={false}/>
             </Grid>
 
+            <FilterModal.Root>
+                <FilterModal.SideFAB/>
+                <FilterModal.Content>
+                    <FilterModal.ContentHeader title={'Filtrar'}/>
+                    <FilterModal.ContentBody>
+                        <ControlledDatePicker id={'startDate'} label={"Data Inicio"} defaultValue={defaultValues.start}
+                                              slotProps={{textField: {fullWidth: true}}} sx={{marginTop: 3}}/>
+                        <ControlledDatePicker id={'endDate'} label={"Data Término"} defaultValue={defaultValues.end}
+                                              slotProps={{textField: {fullWidth: true}}} sx={{marginTop: 3}}/>
+                    </FilterModal.ContentBody>
+                    <FilterModal.ContentActions>
+                        <FilterModal.ContentAction isLoading={true} label={'Cancelar'} color={'error'}/>
+                        <FilterModal.ContentAction isLoading={true} label={'Concluir'} color={'success'}
+                                                   onClick={dashboardContext.onFilter}/>
+                    </FilterModal.ContentActions>
+                </FilterModal.Content>
+            </FilterModal.Root>
         </Core>
     )
 }
