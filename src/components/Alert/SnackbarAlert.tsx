@@ -30,7 +30,7 @@ export const SnackbarAlert = forwardRef(function SnackbarAlert(props: AlertProps
         return {
             show
         };
-    }, []);
+    }, [show]);
 
     return (
         <Snackbar open={open} onClose={handleClose} autoHideDuration={6000} anchorOrigin={{

@@ -86,7 +86,7 @@ export function BigNumberCategoriesCard(props: BigNumberCategoriesCardPropsInter
             },
             series: props.data?.map(item => item.total)
         }
-    }, [props.data])
+    }, [props.data, theme.palette.text.primary, theme.palette.text.secondary])
 
     if (props.isLoading) {
         return <div>Carregando</div>

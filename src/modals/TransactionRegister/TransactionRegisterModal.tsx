@@ -62,12 +62,14 @@ function TransactionRegisterModalContent(props: TransactionRegisterModalPropsInt
             console.log("")
             formContext.reset(defaultValues)
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.selectedItem])
 
     useEffect(() => {
         if (!open && props.onClose) {
             props.onClose()
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [open])
 
     const router = useRouter()

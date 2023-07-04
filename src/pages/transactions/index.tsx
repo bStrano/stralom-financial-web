@@ -69,7 +69,7 @@ export default function TransactionScreen(props: TransactionScreenPropsInterface
 
     const onDelete = useCallback(async (id: string) => {
         await transactionContext.onDelete(id)
-    }, [])
+    }, [transactionContext])
 
     const onUpdate = useCallback(async (item: TransactionInterface) => {
         setSelectedItem(item)

@@ -44,7 +44,7 @@ export function DashboardProvider(props: DashboardProviderPropsInterface) {
             setStartDate(data.startDate);
             setEndDate(data.endDate)
         }, (err) => console.warn("Error", err))();
-    }, []);
+    }, [formContext]);
 
 
     return (

@@ -16,7 +16,7 @@ export function FilterModalAction(props: FilterModalActionPropsInterface) {
         if (props.onClick) {
             await props.onClick(event);
         }
-    }, [props.onClick])
+    }, [filterModalContext, props])
 
     return (
         <LoadingButton variant={'contained'} {...props} style={{flex: 1, marginInline: 10}} onClick={onClick}>

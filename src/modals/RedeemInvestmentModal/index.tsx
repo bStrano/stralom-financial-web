@@ -38,7 +38,7 @@ function InvestmentRedeemModalContent(props: InvestmentRegisterModalPropsInterfa
         if (!open && props.onClose) {
             props.onClose()
         }
-    }, [open])
+    }, [open, props])
 
     useEffect(() => {
         if (props.selectedItem) {
@@ -55,7 +55,7 @@ function InvestmentRedeemModalContent(props: InvestmentRegisterModalPropsInterfa
         } else {
             formContext.reset(defaultValues)
         }
-    }, [props.selectedItem])
+    }, [formContext, props.selectedItem])
 
     return (
 

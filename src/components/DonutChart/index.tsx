@@ -89,7 +89,7 @@ export function DonutChart(props: BigNumberCategoriesCardPropsInterface) {
             },
             series: props.series
         }
-    }, [props.labels, props.colors, props.series])
+    }, [theme.palette.text.secondary, theme.palette.text.primary, props.labels, props.colors, props.series])
 
     if (props.isLoading) {
         return <div>Carregando</div>

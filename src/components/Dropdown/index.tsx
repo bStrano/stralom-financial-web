@@ -21,16 +21,17 @@ export function Dropdown(props: DropdownPropsInterface) {
                 labelId="dropdown-helper-label"
                 id={`${props.label}-select`}
                 value={field.value || ''}
+                key={`${props.label}-select`}
                 label={props.label}
                 sx={{width: '100%'}}
-                onChange={(event, child) => {
+                onChange={(event) => {
                     field.onChange(event.target.value)
                 }}
                 error={!!fieldState.error}
                 aria-errormessage={fieldState.error?.message}
             >
                 {
-                    props.items.map(item => <MenuItem value={item.id}>{item.name}</MenuItem>
+                    props.items.map(item => <MenuItem value={item.id} key={item.id}>{item.name}</MenuItem>
                     )
                 }
             </Select>

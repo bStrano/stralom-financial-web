@@ -47,17 +47,17 @@ function TransactionProvider(props: ITransactionProviderProps) {
         if (transaction.tags.some(item => typeof item === "string" || !item.id)) {
             queryClient.invalidateQueries([TagAPI.keys.findAll]).then(() => console.debug("Query de tags invalidada"))
         }
-    }, [])
+    }, [queryClient])
 
     const add = useCallback(async (transaction: TransactionRegisterDTO) => {
         await saveMutation.mutateAsync(transaction)
         invalidateQueryOnSave(transaction)
-    }, [transactions, invalidateQueryOnSave])
+    }, [saveMutation, invalidateQueryOnSave])
 
     const update = useCallback(async (id: string, transaction: TransactionRegisterDTO) => {
         await updateMutation.mutateAsync({id, transaction})
         invalidateQueryOnSave(transaction)
-    }, [transactions, invalidateQueryOnSave])
+    }, [updateMutation, invalidateQueryOnSave])
 
 
     const onDelete = useCallback(async (id: string) => {
@@ -70,7 +70,7 @@ function TransactionProvider(props: ITransactionProviderProps) {
         //             return item.id !== id && item.referenceTransactionId !== id;
         //         })
         //     })
-    }, [])
+    }, [deleteMutation, queryClient])
 
     return (
         <TransactionContext.Provider

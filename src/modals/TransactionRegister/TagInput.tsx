@@ -36,7 +36,7 @@ export const ControlledAutoCompleteMultiple = forwardRef(function ControlledAuto
                 formContext.setValue(props.id, values)
             }
         };
-    }, []);
+    }, [formContext, props.id]);
 
     return (
         <React.Fragment>
@@ -63,6 +63,7 @@ export const ControlledAutoCompleteMultiple = forwardRef(function ControlledAuto
                 renderTags={(value: readonly string[], getTagProps) =>
                     value.map((option: string | Record<string, any>, index: number) => (
                         <Chip
+                            key={typeof option === "string" ? option : option[props.titleKey]}
                             variant="outlined"
                             label={typeof option === "string" ? option : option[props.titleKey]}
                             {...getTagProps({index})}

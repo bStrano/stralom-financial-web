@@ -24,11 +24,8 @@ interface BigNumberCardPropsInterface {
 export function BigNumberCard(props: BigNumberCardPropsInterface) {
     const Icon = props.icon;
 
-    if (props.isLoading) {
-        return <div>Carregando</div>
-    }
-
     const chartOptions: { options: ApexOptions, series: ApexAxisChartSeries } = useMemo(() => {
+        if (props.isLoading) return null;
         return {
             options: {
                 chart: {
@@ -97,6 +94,10 @@ export function BigNumberCard(props: BigNumberCardPropsInterface) {
             ]
         }
     }, [props.title, props.data])
+
+    if (props.isLoading) {
+        return <div>Carregando</div>
+    }
 
 
     return (

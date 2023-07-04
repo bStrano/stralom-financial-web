@@ -21,7 +21,7 @@ export default function DashboardRoute() {
 export function Home() {
     const {equityDistributionQuery} = useBigNumberEquityDistribution();
     const {equityEvolutionQuery} = useBigNumberEquityEvolution();
-    const {transactionStatisticsTotalQuery, transactionTagData} = useTotalByTag();
+    const {transactionTagData} = useTotalByTag();
 
     return (
         <Core>

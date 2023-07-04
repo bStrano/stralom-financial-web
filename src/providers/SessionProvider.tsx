@@ -31,7 +31,6 @@ const auth = getAuth(firebaseApp);
 export function SessionProvider(props: SessionProviderPropsInterface) {
     const alertContext = useAlertContext();
     const [user, isLoading, error] = useAuthState(auth);
-    console.debug("USER", user)
     const router = useRouter();
 
 
@@ -48,7 +47,7 @@ export function SessionProvider(props: SessionProviderPropsInterface) {
             }
         }
 
-    }, []);
+    }, [alertContext, router]);
 
     const logout = useCallback(async () => {
         await signOut(auth);

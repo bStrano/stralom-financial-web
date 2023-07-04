@@ -108,7 +108,7 @@ function InvestmentScreenContent(props: InvestmentScreenPropsInterface) {
                     color: theme.palette.success.main
                 }
         }
-    }, [])
+    }, [theme.palette.info.main, theme.palette.success.main])
 
     const onRegister = useCallback(async () => {
         setRegisterModalVisibility(true)
@@ -116,7 +116,7 @@ function InvestmentScreenContent(props: InvestmentScreenPropsInterface) {
 
     const onDelete = useCallback(async (id: string) => {
         await investmentContext.onDelete(id);
-    }, [investmentContext.onDelete])
+    }, [investmentContext])
 
     return (
         <Core topContent={<Breadcrumbs aria-label="breadcrumb">

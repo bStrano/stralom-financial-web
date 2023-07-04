@@ -18,7 +18,7 @@ export const ColorPickerDialog = (props: ColorPickerDialogPropsInterface) => {
     const selectColor = useCallback(({hex}) => {
         props.setOpen(false);
         props.onSuccess(hex)
-    }, [props.setOpen, props.onSuccess])
+    }, [props])
 
     return (
         <Dialog
