@@ -15,7 +15,7 @@ export function FilterModalSideFAB(props: FilterModalSideFABPropsInterface) {
     return (
         <>
             <IconButton
-                onClick={() => filterModalContext.show(true)}
+                onClick={() => filterModalContext.show()}
                 size={"large"}
                 sx={{
                     position: 'absolute',
