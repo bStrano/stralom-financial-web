@@ -45,17 +45,17 @@ function InvestmentProvider(props: ITransactionProviderProps) {
 
     const add = useCallback(async (investmentDTOInterface: InvestmentRegisterDTO) => {
         await saveMutation.mutateAsync(investmentDTOInterface)
-        queryClient.invalidateQueries([keys.findAll]).then(() => console.debug("Investimento salvo"))
+        queryClient.invalidateQueries([keys.findAll])
     }, [queryClient, saveMutation])
 
     const update = useCallback(async (id: string, investmentDTOInterface: InvestmentRegisterDTO) => {
         await updateMutation.mutateAsync({id, investment: investmentDTOInterface})
-        queryClient.invalidateQueries([keys.findAll]).then(() => console.debug("Investimento atualizados"))
+        queryClient.invalidateQueries([keys.findAll])
     }, [queryClient, updateMutation])
 
     const onRedeem = useCallback(async (id: string, redeemDto: RedeemInvestmentDTOInterface) => {
         await redeemMutation.mutateAsync({id, redeem: redeemDto})
-        queryClient.invalidateQueries([keys.findAll]).then(() => console.debug("Investimento atualizados"))
+        queryClient.invalidateQueries([keys.findAll])
     }, [queryClient, redeemMutation])
 
     const onDelete = useCallback(async (id: string) => {

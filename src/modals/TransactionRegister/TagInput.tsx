@@ -97,10 +97,6 @@ export const ControlledAutoCompleteMultiple = forwardRef(function ControlledAuto
                     }
                     return filtered;
                 }}
-                onInputChange={(event, newValue) => {
-                    console.log(newValue);
-                }}
-
                 renderInput={(params) => (
                     <TextField
                         {...params}

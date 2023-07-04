@@ -32,8 +32,6 @@ export function EquityEvolutionCard(props: EquityEvolutionCardPropsInterface) {
         ]
     }, [props.data])
 
-    console.log(series)
-
     if (props.isLoading) {
         return <div>Carregando</div>
     }

@@ -59,7 +59,6 @@ function TransactionRegisterModalContent(props: TransactionRegisterModalPropsInt
             }
             formContext.reset(transactionRegisterDto)
         } else {
-            console.log("")
             formContext.reset(defaultValues)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

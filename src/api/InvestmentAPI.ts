@@ -44,7 +44,6 @@ async function redeem({id, redeem}: { id: string, redeem: RedeemInvestmentDTOInt
 }
 
 async function remove(id: string) {
-    console.log("Remove ID");
     await axiosDefault.delete(`investments/${id}`);
 }
 

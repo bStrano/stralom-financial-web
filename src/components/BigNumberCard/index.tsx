@@ -93,7 +93,7 @@ export function BigNumberCard(props: BigNumberCardPropsInterface) {
                 }
             ]
         }
-    }, [props.title, props.data])
+    }, [props.isLoading, props.data?.values, props.title])
 
     if (props.isLoading) {
         return <div>Carregando</div>
