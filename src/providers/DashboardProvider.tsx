@@ -1,16 +1,22 @@
 import {useCashFlow} from "../hooks/queries/useCashFlow";
-import React, {createContext, useContext} from "react";
+import React, {createContext, useCallback, useContext, useState} from "react";
 import {UseQueryResult} from "react-query";
 import {CashFlowCompiledSummaryInterface} from "@core/modules/statistics/CashFlowCompiledSummaryInterface";
 import {useCashFlowCategoryExpenses} from "../hooks/queries/useCashFlowCategoryExpenses";
 import {CashFlowCompiledGroupedByCategoryInterface} from "@core/modules/statistics/CashFlowCompiledGroupedByCategory";
 import {useCashFlowByDayComplete} from "../hooks/queries/useCashFlowByDayComplete";
 import {CashFlowByDayCompiledInterface} from "@core/modules/statistics/CashFlowByDayCompiledInterface";
+import {endOfMonth, startOfMonth} from "date-fns";
+import {FormContext} from "./FormProvider";
 
 interface DashboardContextInterface {
     cashFlowQuery: UseQueryResult<CashFlowCompiledSummaryInterface, unknown>
     cashFlowCategoryExpenseQuery: UseQueryResult<CashFlowCompiledGroupedByCategoryInterface[], unknown>
     cashFlowByDayCompleteQuery: UseQueryResult<CashFlowByDayCompiledInterface, unknown>
+    startDate: Date
+    endDate: Date
+
+    onFilter(): Promise<void>
 }
 
 interface DashboardProviderPropsInterface {
@@ -24,14 +30,32 @@ export const useDashboardContext = () => {
 }
 
 export function DashboardProvider(props: DashboardProviderPropsInterface) {
+    const [startDate, setStartDate] = useState<Date>(startOfMonth(new Date()));
+    const [endDate, setEndDate] = useState<Date>(endOfMonth(new Date()));
     const {children} = props;
 
-    const {cashFlowQuery} = useCashFlow();
-    const {cashFlowCategoryExpenseQuery} = useCashFlowCategoryExpenses();
-    const {cashFlowByDayCompleteQuery} = useCashFlowByDayComplete();
+    const formContext = useContext(FormContext);
+    const {cashFlowQuery} = useCashFlow({startDate, endDate});
+    const {cashFlowCategoryExpenseQuery} = useCashFlowCategoryExpenses({startDate, endDate});
+    const {cashFlowByDayCompleteQuery} = useCashFlowByDayComplete({startDate, endDate});
+
+    const onFilter = useCallback(async () => {
+        return formContext.handleSubmit((data) => {
+            setStartDate(data.startDate);
+            setEndDate(data.endDate)
+        }, (err) => console.warn("Error", err))();
+    }, []);
+
 
     return (
-        <DashboardContext.Provider value={{cashFlowQuery, cashFlowCategoryExpenseQuery, cashFlowByDayCompleteQuery}}>
+        <DashboardContext.Provider value={{
+            cashFlowQuery,
+            cashFlowCategoryExpenseQuery,
+            cashFlowByDayCompleteQuery,
+            startDate,
+            endDate,
+            onFilter
+        }}>
             {children}
         </DashboardContext.Provider>
     )
