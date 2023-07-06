@@ -16,6 +16,8 @@ import {FilterModal} from "../components/FilterModal";
 import ControlledDatePicker from "../components/ControlledDatePicker";
 import {FormProvider} from "../providers/FormProvider";
 import {FindOptionsFilterDTO} from "../validators/FindOptionsFilterDTO";
+import ControlledCheckbox from "../components/ControlledCheckbox";
+import Typography from "@mui/material/Typography";
 
 const defaultValues = {
     start: startOfMonth(new Date()),
@@ -93,6 +95,16 @@ export function Home() {
                                               slotProps={{textField: {fullWidth: true}}} sx={{marginTop: 3}}/>
                         <ControlledDatePicker id={'endDate'} label={"Data Término"} defaultValue={defaultValues.end}
                                               slotProps={{textField: {fullWidth: true}}} sx={{marginTop: 3}}/>
+                        <div style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            margin: '1em'
+                        }}>
+                            <Typography variant={"body1"}>Com investimentos</Typography>
+                            <ControlledCheckbox id={"withInvestments"} defaultValue={true}/>
+                        </div>
                     </FilterModal.ContentBody>
                     <FilterModal.ContentActions>
                         <FilterModal.ContentAction isLoading={true} label={'Cancelar'} color={'error'}/>

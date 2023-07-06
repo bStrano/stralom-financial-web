@@ -32,17 +32,19 @@ export const useDashboardContext = () => {
 export function DashboardProvider(props: DashboardProviderPropsInterface) {
     const [startDate, setStartDate] = useState<Date>(startOfMonth(new Date()));
     const [endDate, setEndDate] = useState<Date>(endOfMonth(new Date()));
+    const [withInstalments, setWithInstalments] = useState<boolean>(false);
     const {children} = props;
 
     const formContext = useContext(FormContext);
-    const {cashFlowQuery} = useCashFlow({startDate, endDate});
-    const {cashFlowCategoryExpenseQuery} = useCashFlowCategoryExpenses({startDate, endDate});
-    const {cashFlowByDayCompleteQuery} = useCashFlowByDayComplete({startDate, endDate});
+    const {cashFlowQuery} = useCashFlow({startDate, endDate, withInstalments});
+    const {cashFlowCategoryExpenseQuery} = useCashFlowCategoryExpenses({startDate, endDate, withInstalments});
+    const {cashFlowByDayCompleteQuery} = useCashFlowByDayComplete({startDate, endDate, withInstalments});
 
     const onFilter = useCallback(async () => {
         return formContext.handleSubmit((data) => {
             setStartDate(data.startDate);
-            setEndDate(data.endDate)
+            setEndDate(data.endDate);
+            setWithInstalments(data.withInvestments);
         }, (err) => console.warn("Error", err))();
     }, [formContext]);
 
