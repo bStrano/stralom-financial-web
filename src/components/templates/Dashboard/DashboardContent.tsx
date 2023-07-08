@@ -31,6 +31,8 @@ export function DashboardContent({children, title, subtitle, topContent}: Dashbo
     const sessionContext = useSessionContext();
     const matches = useMediaQuery(theme.breakpoints.up('sm'));
     const [open, setOpen] = React.useState(true);
+    const isScreenGreaterThanSm = useMediaQuery(() => theme.breakpoints.up('sm'));
+
 
     useEffect(() => {
         if (!matches && open) {
@@ -86,25 +88,28 @@ export function DashboardContent({children, title, subtitle, topContent}: Dashbo
                     </IconButton>
                 </Toolbar>
             </AppBar>
-            <Drawer variant="permanent" open={open}>
-                <Toolbar
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'flex-end',
-                        px: [1],
-                    }}
-                >
-                    <IconButton onClick={toggleDrawer}>
-                        <ChevronLeftIcon/>
-                    </IconButton>
-                </Toolbar>
-                <Divider/>
-                <List component="nav">
-                    <MenuItems/>
-                    <Divider sx={{my: 1}}/>
-                </List>
-            </Drawer>
+            {
+                isScreenGreaterThanSm &&
+                <Drawer variant="permanent" open={open}>
+                    <Toolbar
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'flex-end',
+                            px: [1],
+                        }}
+                    >
+                        <IconButton onClick={toggleDrawer}>
+                            <ChevronLeftIcon/>
+                        </IconButton>
+                    </Toolbar>
+                    <Divider/>
+                    <List component="nav">
+                        <MenuItems/>
+                        <Divider sx={{my: 1}}/>
+                    </List>
+                </Drawer>
+            }
             <Box
                 component="main"
                 sx={{
@@ -118,7 +123,7 @@ export function DashboardContent({children, title, subtitle, topContent}: Dashbo
                 }}
             >
                 <Toolbar/>
-                <Container style={{minWidth: '100%', marginTop: 20}}>
+                <Container style={{minWidth: '100%', marginTop: 20, marginBottom: isScreenGreaterThanSm ? 0 : 80}}>
                     <Breadcrumbs aria-label="breadcrumb">
                         {topContent}
                     </Breadcrumbs>
@@ -126,6 +131,10 @@ export function DashboardContent({children, title, subtitle, topContent}: Dashbo
                     <Typography variant={"subtitle1"} style={{paddingBottom: 10}}>{subtitle}</Typography>
                     {children}
                 </Container>
+            </Box>
+
+            <Box style={{backgroundColor: 'red', width: '100%', height: 60, position: 'absolute', bottom: 0}}>
+                <MenuItems mobile={true}/>
             </Box>
         </Box>
     );
