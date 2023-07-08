@@ -24,7 +24,6 @@ export function BigNumberCategoriesCard(props: BigNumberCategoriesCardPropsInter
                 },
                 chart: {
                     type: 'donut',
-                    width: '100%'
                 },
                 dataLabels: {
                     enabled: false,
@@ -102,14 +101,12 @@ export function BigNumberCategoriesCard(props: BigNumberCategoriesCardPropsInter
             minWidth: 320,
             height: 430
         }}>
-            <Box sx={{width: '100%'}}>
+            <Box sx={{width: '100%', height: '100%'}}>
                 <ApexCharts
                     options={chartOptions.options}
                     series={chartOptions.series}
                     type="donut"
-                    height={350}
-                    width={450}
-
+                    height={'100%'}
                 />
             </Box>
 

@@ -105,14 +105,13 @@ export function DonutChart(props: BigNumberCategoriesCardPropsInterface) {
             minWidth: 200,
             height: 430
         }}>
-            <Box sx={{width: '100%'}}>
-                <Typography variant={'subtitle1'}>{props.title}</Typography>
+            <Box sx={{width: '100%', height: '100%'}}>
+                <Typography variant={'subtitle1'} style={{paddingBottom: 20}}>{props.title}</Typography>
                 <ApexCharts
                     options={chartOptions.options}
                     series={chartOptions.series}
                     type="donut"
-                    width={450}
-
+                    height='90%'
                 />
             </Box>
 
