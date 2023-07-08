@@ -79,7 +79,7 @@ export const MenuItems = ({mobile}: MenuItemsProps) => {
 
     return <React.Fragment>
         <List
-            sx={{width: '100%', maxWidth: 360, flexDirection: 'row', display: 'flex'}}
+            sx={{width: '100%', maxWidth: 360}}
             component="nav"
             aria-labelledby="nested-list-subheader"
             subheader={

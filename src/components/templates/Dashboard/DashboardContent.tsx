@@ -133,9 +133,12 @@ export function DashboardContent({children, title, subtitle, topContent}: Dashbo
                 </Container>
             </Box>
 
-            <Box style={{backgroundColor: 'red', width: '100%', height: 60, position: 'absolute', bottom: 0}}>
-                <MenuItems mobile={true}/>
-            </Box>
+            {
+                !isScreenGreaterThanSm &&
+                <Box style={{backgroundColor: 'red', width: '100%', height: 60, position: 'absolute', bottom: 0}}>
+                    <MenuItems mobile={true}/>
+                </Box>
+            }
         </Box>
     );
 }
