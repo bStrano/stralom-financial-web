@@ -30,17 +30,17 @@ export function InvestmentRegisterModal(props: InvestmentRegisterModalPropsInter
 }
 
 function InvestmentRegisterModalContent(props: InvestmentRegisterModalPropsInterface) {
-    const {open, setOpen} = props;
+    const {open, setOpen, onClose} = props;
     const investmentContext = useInvestmentContext();
-    const formContext = useContext(FormContext);
+    const {reset} = useContext(FormContext);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
     useEffect(() => {
-        if (!open && props.onClose) {
-            props.onClose()
+        if (!open && onClose) {
+            onClose()
         }
-    }, [open, props])
+    }, [open, onClose])
 
     useEffect(() => {
         if (props.selectedItem) {
@@ -53,11 +53,11 @@ function InvestmentRegisterModalContent(props: InvestmentRegisterModalPropsInter
                 startDate: new Date(props.selectedItem.startDate),
                 typeId: props.selectedItem.type.id
             }
-            formContext.reset(transactionRegisterDto)
+            reset(transactionRegisterDto)
         } else {
-            formContext.reset(defaultValues)
+            reset(defaultValues)
         }
-    }, [formContext, props.selectedItem])
+    }, [reset, props.selectedItem])
 
     return (
 
@@ -68,7 +68,7 @@ function InvestmentRegisterModalContent(props: InvestmentRegisterModalPropsInter
             aria-describedby="modal-modal-description"
         >
             <Card sx={{minWidth: 400, ...style}}>
-                <CardHeader title="Novo Investimento"
+                <CardHeader title={`${props.selectedItem ? 'Editar' : 'Salvar'} Investimento`}
                             action={
                                 <IconButton aria-label="close" onClick={handleClose}>
                                     <CloseIcon/>
@@ -96,7 +96,6 @@ function InvestmentRegisterModalContent(props: InvestmentRegisterModalPropsInter
                                             sx={{width: '100%', marginTop: 3, height: 45}}
                                             label={props.selectedItem ? 'Editar' : 'Salvar'}
                                             onSubmit={async (data) => {
-
                                                 if (props.selectedItem) {
                                                     await investmentContext.update(props.selectedItem.id, data);
                                                 } else {

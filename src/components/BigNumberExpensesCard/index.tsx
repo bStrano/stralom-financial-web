@@ -19,24 +19,15 @@ export function BigNumberExpensesCard(props: BigNumberExpensesCardPropsInterface
     const chartOptions: { options: ApexOptions, series: any } = useMemo(() => {
         return {
             series: [
-                // {
-                //     name: 'Entrada',
-                //     type: 'column',
-                //     data: props.data?.days.map(item => item.data.incoming.total)
-                // }, {
-                //     name: 'Saída',
-                //     type: 'column',
-                //     data: props.data?.days.map(item => Math.abs(item.data.outComing.total))
-                // },
                 {
                     name: 'Entradas',
                     type: 'area',
-                    data: props.data?.days.map(item => Math.abs(item.data.incoming.accumulated))
+                    data: props.data?.days.map(item => Math.abs(item.data.incoming.accumulated)) || []
                 },
                 {
                     name: 'Saídas',
                     type: 'area',
-                    data: props.data?.days.map(item => Math.abs(item.data.outComing.accumulated))
+                    data: props.data?.days.map(item => Math.abs(item.data.outComing.accumulated)) || []
                 }
             ],
             options: {

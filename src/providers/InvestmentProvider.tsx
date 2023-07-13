@@ -41,31 +41,31 @@ function InvestmentProvider(props: ITransactionProviderProps) {
     const updateMutation = useMutation(keys.update, updateItem);
     const redeemMutation = useMutation(keys.redeem, redeem);
     const deleteMutation = useMutation(keys.remove, remove);
-    const queryClient = useQueryClient()
+    const {invalidateQueries, setQueryData} = useQueryClient()
 
     const add = useCallback(async (investmentDTOInterface: InvestmentRegisterDTO) => {
         await saveMutation.mutateAsync(investmentDTOInterface)
-        queryClient.invalidateQueries([keys.findAll])
-    }, [queryClient, saveMutation])
+        invalidateQueries([keys.findAll]).then()
+    }, [invalidateQueries, saveMutation])
 
     const update = useCallback(async (id: string, investmentDTOInterface: InvestmentRegisterDTO) => {
         await updateMutation.mutateAsync({id, investment: investmentDTOInterface})
-        queryClient.invalidateQueries([keys.findAll])
-    }, [queryClient, updateMutation])
+        invalidateQueries([keys.findAll]).then()
+    }, [invalidateQueries, updateMutation])
 
     const onRedeem = useCallback(async (id: string, redeemDto: RedeemInvestmentDTOInterface) => {
         await redeemMutation.mutateAsync({id, redeem: redeemDto})
-        queryClient.invalidateQueries([keys.findAll])
-    }, [queryClient, redeemMutation])
+        invalidateQueries([keys.findAll]).then()
+    }, [invalidateQueries, redeemMutation])
 
     const onDelete = useCallback(async (id: string) => {
         await deleteMutation.mutateAsync(id);
-        queryClient.setQueryData(
+        setQueryData(
             [keys.findAll],
             (oldData: InvestmentInterface[]) => {
                 return oldData.filter(item => item.id !== id);
             })
-    }, [deleteMutation, queryClient])
+    }, [])
 
     return (
         <InvestmentContext.Provider

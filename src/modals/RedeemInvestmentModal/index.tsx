@@ -9,6 +9,7 @@ import ControlledDatePicker from "../../components/ControlledDatePicker";
 import {InvestmentRegisterDTO} from "../../validators/InvestmentRegisterDTO";
 import {useInvestmentContext} from "../../providers/InvestmentProvider";
 import {InvestmentInterface} from "@core/modules/investments/entities/InvestmentInterface";
+import usePrevious from "../../hooks/usePrevious";
 
 interface InvestmentRegisterModalPropsInterface {
     open: boolean;
@@ -29,16 +30,17 @@ export function InvestmentRedeemModal(props: InvestmentRegisterModalPropsInterfa
 }
 
 function InvestmentRedeemModalContent(props: InvestmentRegisterModalPropsInterface) {
-    const {open, setOpen} = props;
+    const {open, setOpen, onClose} = props;
     const investmentContext = useInvestmentContext();
-    const formContext = useContext(FormContext);
+    const {reset} = useContext(FormContext);
+    const previousOpen = usePrevious(open);
     const handleClose = () => setOpen(false);
 
     useEffect(() => {
-        if (!open && props.onClose) {
-            props.onClose()
+        if (!open && previousOpen && onClose) {
+            onClose()
         }
-    }, [open, props])
+    }, [open, props, onClose])
 
     useEffect(() => {
         if (props.selectedItem) {
@@ -51,11 +53,11 @@ function InvestmentRedeemModalContent(props: InvestmentRegisterModalPropsInterfa
                 startDate: new Date(props.selectedItem.startDate),
                 typeId: props.selectedItem.type.id
             }
-            formContext.reset(transactionRegisterDto)
+            reset(transactionRegisterDto)
         } else {
-            formContext.reset(defaultValues)
+            reset(defaultValues)
         }
-    }, [formContext, props.selectedItem])
+    }, [reset, props.selectedItem])
 
     return (
 

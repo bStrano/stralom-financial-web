@@ -48,18 +48,18 @@ export function Home() {
     return (
         <Core>
             <Grid container spacing={2}>
-                <Grid sm xs md>
+                <Grid item sm xs md>
                     <BigNumberCard title={"Saldo"} isLoading={cashFlowQuery.isLoading}
                                    backgroundColor={theme.palette.info.darker}
                                    data={cashFlowQuery.data?.balance} color={theme.palette.info.main}
                                    icon={FcLineChart}/>
                 </Grid>
-                <Grid sm={12} xs={12} md>
+                <Grid item sm={12} xs={12} md>
                     <BigNumberCard title={"Entradas"} isLoading={cashFlowQuery.isLoading}
                                    data={cashFlowQuery.data?.incoming} color={theme.palette.success.main}
                                    backgroundColor={theme.palette.success.darker} icon={IoMdTrendingUp}/>
                 </Grid>
-                <Grid sm xs md>
+                <Grid item sm xs md>
                     <BigNumberCard title={"Saidas"} isLoading={cashFlowQuery.isLoading}
                                    data={cashFlowQuery.data?.outComing} color={theme.palette.error.main}
                                    backgroundColor={theme.palette.error.darker} icon={IoMdTrendingDown}/>
@@ -67,11 +67,11 @@ export function Home() {
             </Grid>
 
             <Grid container spacing={2}>
-                <Grid sm xs lg={12} xl={8}>
+                <Grid item sm xs lg={12} xl={8}>
                     <BigNumberExpensesCard isLoading={cashFlowByDayCompleteQuery.isLoading}
                                            data={cashFlowByDayCompleteQuery.data}/>
                 </Grid>
-                <Grid sm={12} xs={12} xl={4}>
+                <Grid item sm={12} xs={12} xl={4}>
                     <BigNumberCategoriesCard isLoading={cashFlowCategoryExpenseQuery.isLoading}
                                              data={cashFlowCategoryExpenseQuery.data}/>
                 </Grid>
