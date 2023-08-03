@@ -24,6 +24,7 @@
     "class-validator": "^0.14.0",
     "date-fns": "^2.29.3",
     "firebase": "^9.19.1",
+    "lottie-react": "^2.4.0",
     "next": "latest",
     "react": "18.2.0",
     "react-apexcharts": "^1.4.0",

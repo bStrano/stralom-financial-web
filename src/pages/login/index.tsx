@@ -11,26 +11,18 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import {createTheme, ThemeProvider} from '@mui/material/styles';
+import {createTheme} from '@mui/material/styles';
 import {useSessionContext} from "../../providers/SessionProvider";
-
-function Copyright(props: any) {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Copyright © '}
-            <Link color="inherit" href="https://financial.stralom.com/">
-                Stralom Financial
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
+import {Copyright} from "../../components/templates/Dashboard/Copyright";
+import {useRouter} from "next/router";
+import Lottie from "lottie-react";
+import login from "../../../assets/animations/login.json";
 
 const theme = createTheme();
 
 
-export default function SignInSide() {
+export default function LoginScreen() {
+    const router = useRouter();
     const sessionContext = useSessionContext();
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -38,24 +30,23 @@ export default function SignInSide() {
         await sessionContext.login(data.get('email') as string, data.get('password') as string)
     };
 
+
+    const handleRegisterClick = async () => {
+        await router.push('/register');
+    }
+
     return (
-        <ThemeProvider theme={theme}>
             <Grid container component="main" sx={{height: '100vh'}}>
                 <CssBaseline/>
                 <Grid
+                    style={{display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center', background: 'linear-gradient(to right, rgb(182, 244, 146), rgb(51, 139, 147))'}}
                     item
-                    xs={false}
                     sm={4}
                     md={7}
-                    sx={{
-                        backgroundImage: 'url(https://media.istockphoto.com/id/1225817369/photo/3d-render-abstract-background-with-bright-neon-light-pink-blue-violet-vertical-glowing-lines.jpg?b=1&s=170667a&w=0&k=20&c=ur51BeJIJP8szMuzZVzcIhbrel6NLhOHVf-jNmz1wSw=)',
-                        backgroundRepeat: 'no-repeat',
-                        backgroundColor: (t) =>
-                            t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                    }}
-                />
+                    xs={false}
+                >
+                    <Lottie style={{width: '100%', height: '100%'}}  animationData={login} loop={true} autoplay={true}/>
+                </Grid>
                 <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
                     <Box
                         sx={{
@@ -107,14 +98,14 @@ export default function SignInSide() {
                             </Button>
                             <Grid container>
                                 <Grid item xs>
-                                    <Link href="login#" variant="body2">
-                                        Forgot password?
-                                    </Link>
+                                    <Button href="login#" onClick={handleRegisterClick}>
+                                        Esqueceu sua senha?
+                                    </Button>
                                 </Grid>
                                 <Grid item>
-                                    <Link href="login#" variant="body2">
-                                        {"Don't have an account? Sign Up"}
-                                    </Link>
+                                    <Button href="/register" onClick={handleRegisterClick}>
+                                        {"Cadastre-se"}
+                                    </Button>
                                 </Grid>
                             </Grid>
                             <Copyright sx={{ mt: 5 }} />
@@ -122,6 +113,5 @@ export default function SignInSide() {
                     </Box>
                 </Grid>
             </Grid>
-        </ThemeProvider>
     );
 }

@@ -5,7 +5,7 @@ import {FormContext} from "../providers/FormProvider";
 import {ButtonProps} from "@mui/material";
 
 type IControlledSubmitButtonProps = {
-    onSubmit: (data: any) => void;
+    onSubmit: (data: any) => Promise<void>
     loading?: boolean;
     label?: string
 } & ButtonProps;
