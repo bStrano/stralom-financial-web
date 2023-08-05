@@ -1,5 +1,6 @@
 import {axiosAuthentication} from "../configs/axios.config";
 import {RegisterUserDTOInterface} from "@core/modules/users/dtos/RegisterUserDTOInterface";
+import {LoginResponseInterface} from "../types/api/responses/LoginResponseInterface";
 
 export class UsersAPI {
     public static readonly keys = {
@@ -9,6 +10,9 @@ export class UsersAPI {
     private static readonly route = 'users'
 
     static register(registerDto: RegisterUserDTOInterface){
-        return axiosAuthentication.post(`${UsersAPI.route}/register`, registerDto)
+        return axiosAuthentication.post<LoginResponseInterface>(`${UsersAPI.route}/register`, {
+            ...registerDto,
+            platform: 1
+        })
     }
 }

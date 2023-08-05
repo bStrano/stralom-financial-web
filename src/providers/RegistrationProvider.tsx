@@ -1,15 +1,15 @@
-import React, {useCallback, useContext} from 'react';
+import React, {useCallback} from 'react';
 import {useMutation} from "react-query";
 import {UsersAPI} from "../api/UsersAPI";
 import {RegisterUserDTOInterface} from "@core/modules/users/dtos/RegisterUserDTOInterface";
-import {useSessionContext} from "./SessionProvider";
+import {LoginResponseInterface} from "../types/api/responses/LoginResponseInterface";
 
 interface IRegistrationProviderProps {
     children: React.ReactNode;
 }
 
 export interface RegistrationContextInterface {
-    registerUser(registerDto: RegisterUserDTOInterface): Promise<void>;
+    registerUser(registerDto: RegisterUserDTOInterface): Promise<LoginResponseInterface>;
     isRegistering?: boolean;
 }
 
@@ -20,13 +20,12 @@ export const useRegistrationContext = () => {
 
 
 function RegistrationProvider(props: IRegistrationProviderProps) {
-    const sessionContext = useSessionContext();
     const mutation = useMutation([UsersAPI.keys.register], UsersAPI.register)
 
 
     const registerUser = useCallback(async (registerDto: RegisterUserDTOInterface) => {
-        const user = await mutation.mutateAsync(registerDto);
-        // TODO: Create Session
+        const {data} = await mutation.mutateAsync(registerDto);
+        return data;
 
     }, [mutation]);
 

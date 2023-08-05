@@ -1,4 +1,3 @@
-import {RegisterUserDTOInterface} from "@core/modules/users/dtos/RegisterUserDTOInterface";
 import {axiosAuthentication} from "../configs/axios.config";
 
 export class AuthenticationAPI {
@@ -11,16 +10,34 @@ export class AuthenticationAPI {
 
     private static readonly route = 'auth'
 
-    static login(registerDto: RegisterUserDTOInterface){
-        return axiosAuthentication.post(`${AuthenticationAPI.route}/login`, registerDto)
+    static login(email: string, password: string){
+        return axiosAuthentication.post<{
+            id: number,
+            email: string,
+            name: string,
+            lastName: string,
+            accessToken: string,
+            refreshToken: {
+                code: string,
+                expiryAt: string,
+            },
+        }>(`${AuthenticationAPI.route}/login`, {
+            email,
+            password,
+            platform: 1
+        })
     }
 
 
-    static restoreSession(registerDto: RegisterUserDTOInterface){
-        return axiosAuthentication.patch(`${AuthenticationAPI.route}/session`, registerDto)
+    static restoreSession(refreshToken: string){
+        return axiosAuthentication.patch(`${AuthenticationAPI.route}/session`, {refreshToken})
     }
 
-    static logout(code: string){
-        return axiosAuthentication.delete(`${AuthenticationAPI.route}/logout/${code}`)
+    static logout(code: string, accessToken: string){
+        return axiosAuthentication.delete(`${AuthenticationAPI.route}/logout/${code}`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        })
     }
 }

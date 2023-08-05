@@ -5,20 +5,16 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import {createTheme} from '@mui/material/styles';
 import {useSessionContext} from "../../providers/SessionProvider";
 import {Copyright} from "../../components/templates/Dashboard/Copyright";
 import {useRouter} from "next/router";
 import Lottie from "lottie-react";
 import login from "../../../assets/animations/login.json";
-
-const theme = createTheme();
 
 
 export default function LoginScreen() {
@@ -99,12 +95,12 @@ export default function LoginScreen() {
                             <Grid container>
                                 <Grid item xs>
                                     <Button href="login#" onClick={handleRegisterClick}>
-                                        Esqueceu sua senha?
+                                        Forgot your password?
                                     </Button>
                                 </Grid>
                                 <Grid item>
                                     <Button href="/register" onClick={handleRegisterClick}>
-                                        {"Cadastre-se"}
+                                        {"Register"}
                                     </Button>
                                 </Grid>
                             </Grid>

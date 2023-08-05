@@ -14,6 +14,7 @@ import {RegisterDTO} from "../../validators/RegisterUserDTO";
 import RegistrationProvider, {useRegistrationContext} from "../../providers/RegistrationProvider";
 import ControlledTextField from "../../components/ControlledTextField";
 import ControlledSubmitButton from "../../components/ControlledSubmitButton";
+import {useRouter} from "next/router";
 
 
 const theme = createTheme();
@@ -31,6 +32,7 @@ export default function RegisterScreen() {
 }
 
 export function RegisterScreenContent() {
+    const router = useRouter();
     const registerContext = useRegistrationContext();
     const sessionContext = useSessionContext();
     const lottieRef: LottieRef = useRef();
@@ -44,9 +46,9 @@ export function RegisterScreenContent() {
     }, [])
 
     const handleSubmit = async (data: RegisterDTO) => {
-        // console.log("HANDLE SUBMIT", data)
-        await registerContext.registerUser(data);
-        await sessionContext.login(data.email, data.password);
+        const response = await registerContext.registerUser(data);
+        await sessionContext.updateSession(response);
+        await router.replace('/');
     };
 
     return (
@@ -71,7 +73,7 @@ export function RegisterScreenContent() {
                 <CardContent>
 
                     <Box sx={{mt: 1, margin: 5}}>
-                        <Typography variant={'h4'}>Sign in</Typography>
+                        <Typography variant={'h4'}>Register</Typography>
 
                         <Box style={{
                             display: 'flex',
@@ -85,7 +87,7 @@ export function RegisterScreenContent() {
                                 required
                                 fullWidth
                                 id="name"
-                                label="Primeiro nome"
+                                label="First name"
                                 name="name"
                                 type={"text"}
                                 autoComplete="name"
@@ -96,7 +98,7 @@ export function RegisterScreenContent() {
                                 required
                                 fullWidth
                                 id="lastName"
-                                label="Ultimo nome"
+                                label="Last name"
                                 name="lastName"
                                 type={"text"}
                                 autoComplete="name"
@@ -118,7 +120,7 @@ export function RegisterScreenContent() {
                             required
                             fullWidth
                             name="password"
-                            label="Senha"
+                            label="Password"
                             type="password"
                             id="password"
                             autoComplete="current-password"
@@ -128,7 +130,7 @@ export function RegisterScreenContent() {
                             required
                             fullWidth
                             name="confirmPassword"
-                            label="Confirmar senha"
+                            label="Confirm password"
                             type="password"
                             id="confirmPassword"
                             autoComplete="current-password"
@@ -139,16 +141,15 @@ export function RegisterScreenContent() {
                             onSubmit={(data) => handleSubmit(data)}
                             sx={{mt: 3, mb: 2}}
                         >
-                            Cadastrar
+                            Register
                         </ControlledSubmitButton>
                         <Grid container>
                             <Grid item>
                                 <Button href="/login">
-                                    {"Já possui uma conta? Ir para o Login"}
+                                    {"Already have an account? Sign in"}
                                 </Button>
                             </Grid>
                         </Grid>
-                        {/*<Copyright sx={{ mt: 5 }} />*/}
                     </Box>
                 </CardContent>
             </Card>
