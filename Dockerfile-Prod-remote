@@ -22,7 +22,9 @@ RUN aws s3 cp s3://stralom-deploys/financial/ssh/financial_core_deploy /root/.ss
 RUN aws s3 cp s3://stralom-deploys/financial/ssh/config /root/.ssh/config
 #
 ## Set up SSH key for private repository access
+# TODO: Refatorar para obter de forma dinamica das variaveis de ambiente
 ENV NEXT_PUBLIC_ENDPOINT="https://api-financial.stralom.com/api/financial/"
+ENV NEXT_PUBLIC_AUTH_ENDPOINT="https://api-authentication.stralom.com/"
 ENV NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY="AIzaSyAP5Z6VXUoK9NHbwb6P97ZjxKKNUsBs0_E"
 ENV NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN="stralomauthentication.firebaseapp.com"
 ENV NEXT_PUBLIC_FIREBASE_PROJECT_ID="stralomauthentication"
