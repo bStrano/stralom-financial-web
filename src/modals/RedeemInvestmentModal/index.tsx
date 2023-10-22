@@ -9,7 +9,7 @@ import ControlledDatePicker from "../../components/ControlledDatePicker";
 import {InvestmentRegisterDTO} from "../../validators/InvestmentRegisterDTO";
 import {useInvestmentContext} from "../../providers/InvestmentProvider";
 import {InvestmentInterface} from "@core/modules/investments/entities/InvestmentInterface";
-import usePrevious from "../../hooks/usePrevious";
+import {InvestmentRedeemDTO} from "../../validators/InvestmentRedeemDTO";
 
 interface InvestmentRegisterModalPropsInterface {
     open: boolean;
@@ -23,7 +23,7 @@ const defaultValues = {}
 
 export function InvestmentRedeemModal(props: InvestmentRegisterModalPropsInterface) {
     return (
-        <FormProvider validationSchema={InvestmentRegisterDTO}>
+        <FormProvider validationSchema={InvestmentRedeemDTO}>
             <InvestmentRedeemModalContent {...props} />
         </FormProvider>
     )
@@ -33,15 +33,10 @@ function InvestmentRedeemModalContent(props: InvestmentRegisterModalPropsInterfa
     const {open, setOpen, onClose} = props;
     const investmentContext = useInvestmentContext();
     const {reset} = useContext(FormContext);
-    const previousOpen = usePrevious(open);
-    const handleClose = () => setOpen(false);
-
-    useEffect(() => {
-        if (!open && previousOpen && onClose) {
-            onClose()
-        }
-    }, [open, props, onClose])
-
+    const handleClose = () => {
+        setOpen(false);
+        onClose();
+    }
     useEffect(() => {
         if (props.selectedItem) {
             const transactionRegisterDto: InvestmentRegisterDTO = {

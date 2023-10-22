@@ -33,14 +33,11 @@ function InvestmentRegisterModalContent(props: InvestmentRegisterModalPropsInter
     const {open, setOpen, onClose} = props;
     const investmentContext = useInvestmentContext();
     const {reset} = useContext(FormContext);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const handleClose = () => {
+        setOpen(false);
+        onClose();
+    }
 
-    useEffect(() => {
-        if (!open && onClose) {
-            onClose()
-        }
-    }, [open, onClose])
 
     useEffect(() => {
         if (props.selectedItem) {
