@@ -103,7 +103,7 @@ export function Home() {
                             margin: '1em'
                         }}>
                             <Typography variant={"body1"}>Com investimentos</Typography>
-                            <ControlledCheckbox id={"withInvestments"} defaultValue={true}/>
+                            <ControlledCheckbox id={"withInvestments"} defaultValue={false}/>
                         </div>
                     </FilterModal.ContentBody>
                     <FilterModal.ContentActions>

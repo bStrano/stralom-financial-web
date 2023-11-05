@@ -3,10 +3,10 @@ import {useController} from "react-hook-form";
 import {FormContext} from "../providers/FormProvider";
 import {Checkbox, CheckboxProps} from '@mui/material';
 
-export type IControlledTextFieldProps = {
+export interface IControlledTextFieldProps extends Omit<CheckboxProps, 'defaultValue'> {
     id: string,
     defaultValue: boolean
-} & CheckboxProps;
+}
 
 function ControlledCheckbox({id, defaultValue, ...restProps}: IControlledTextFieldProps) {
     const formContext = useContext(FormContext);

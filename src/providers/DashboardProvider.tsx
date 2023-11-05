@@ -32,7 +32,7 @@ export const useDashboardContext = () => {
 export function DashboardProvider(props: DashboardProviderPropsInterface) {
     const [startDate, setStartDate] = useState<Date>(startOfMonth(new Date()));
     const [endDate, setEndDate] = useState<Date>(endOfMonth(new Date()));
-    const [withInstalments, setWithInstalments] = useState<boolean>(true);
+    const [withInstalments, setWithInstalments] = useState<boolean>(false);
     const {children} = props;
 
     const formContext = useContext(FormContext);
