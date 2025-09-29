@@ -5,7 +5,8 @@ import Grid from '@mui/material/Grid';
 import {createTheme} from '@mui/material/styles';
 import {useSessionContext} from "../../providers/SessionProvider";
 import {Card, CardContent} from "@mui/material";
-import Lottie, {LottieRef} from "lottie-react";
+import type {LottieRef} from "lottie-react";
+import dynamic from "next/dynamic";
 import moneyBackground from './../../../assets/animations/money-background2.json'
 import {useEffect, useRef} from "react";
 import Typography from "@mui/material/Typography";
@@ -15,6 +16,7 @@ import RegistrationProvider, {useRegistrationContext} from "../../providers/Regi
 import ControlledTextField from "../../components/ControlledTextField";
 import ControlledSubmitButton from "../../components/ControlledSubmitButton";
 import {useRouter} from "next/router";
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 
 const theme = createTheme();

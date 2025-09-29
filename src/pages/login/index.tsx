@@ -13,8 +13,9 @@ import Typography from '@mui/material/Typography';
 import {useSessionContext} from "../../providers/SessionProvider";
 import {Copyright} from "../../components/templates/Dashboard/Copyright";
 import {useRouter} from "next/router";
-import Lottie from "lottie-react";
 import login from "../../../assets/animations/login.json";
+import dynamic from "next/dynamic";
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 
 export default function LoginScreen() {
